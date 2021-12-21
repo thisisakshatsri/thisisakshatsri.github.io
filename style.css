@@ -1,0 +1,301 @@
+        html{
+                scroll-behavior: smooth;
+            }
+        .Intro_message{
+            margin: 0%;
+            padding: 0%;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            text-align: center;
+            transform: translateX(-50%);
+            font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        #hey{
+            margin: 0%;
+            padding: 0%;
+            border: 0ch;
+            font-size: 25px;
+        }
+        #name{
+            margin: 0%;
+            padding: 0%;
+            border: 0ch;
+            font-size: 4em;
+            font-family: Nexa Text-Trial Light;
+            color: #1ff0ff;
+            background: linear-gradient(#71b1f0, #f999e6);
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+        }
+        #cas{
+            margin: 0%;
+            padding: 0%;
+            border: 0ch;
+            font-size: 25px;       
+        }
+        #place{
+            margin: 0%;
+            padding: 0%;
+            border: 0ch;
+            font-size: 25px; 
+        }
+        #profilepic{
+            position: absolute;
+            top: 110%;
+            padding-left: 5%;
+        }
+        #aboutme{
+            position: absolute;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            top: 100%;
+            padding-left: 45%;
+            font-size: 2.5em;
+            font-family: Poppins;
+            font-weight: lighter;
+        }
+        #about{
+            margin: 0%;
+            padding: 0%;
+            border: 0ch;
+            position: absolute;
+            top: 110%;  
+            font-size: 25px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;         
+            text-align: left;
+            padding-left: 30%;
+            padding-right: 15%;
+            padding-top: 2.5%;
+
+        }
+        .skill_bg{
+            position: absolute;
+            top: 200%;
+            width: 1200px;
+            border: 0%;
+            padding: 0%;
+            margin: 0%;
+        }
+        #sandi{
+            position: absolute;
+            font-family: Code;
+            top: 200%;
+            padding-left: 40%;
+            font-size: 2.5em;  
+            font-family: Nexa Text-Trial Light;         
+        }
+        .programming{
+            background-color: #0f0f0f;
+            height: 800px;
+            width: 750px;
+            position: absolute;
+            padding: 0%;
+            margin: 0%;
+            top: 220%;
+            left: 28%;
+            text-align: center;
+            border-radius: 5px;
+            font-family: Nexa Text-Trial Light;
+
+        } 
+        .project{
+            position: absolute;
+            padding: 0%;
+            margin: 0%;
+            top: 360%;
+            left: 43%;
+            text-align: center;
+            font-family: Nexa Text-Trial Light;
+
+        } 
+        .contact{
+            position: absolute;
+            padding: 0%;
+            padding-top: 16%;
+            padding-bottom: 20%;
+            margin: 0%;
+            top: 400%;
+            left: 47%;
+            text-align: center;
+            font-family: Nexa Text-Trial Light;
+
+        }
+        #github{
+            position: absolute;
+            left: -140%;
+            top: 60%;
+        }
+        #linkedin{
+            position: absolute;
+            left: -28%;
+            top: 60%;
+        }
+        #ig{
+            position: absolute;
+            left: 90%;
+            top: 60%;
+        }
+        #fb{
+            position: absolute;
+            left: 200%;
+            top: 60%;
+        }
+        @media  ( max-width: 600px){
+            .Intro_message{
+            margin: 0%;
+            padding: 0%;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            text-align: center;
+            transform: translateX(-50%);
+            font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        #hey{
+            margin: 0%;
+            padding: 0%;
+            border: 0ch;
+            font-size: 25px;
+        }
+        #name{
+            margin: 0%;
+            padding: 0%;
+            border: 0ch;
+            font-size: 32px;
+            font-family: Nexa Text-Trial Light;
+            color: #1ff0ff;
+            background: linear-gradient(#71b1f0, #f999e6);
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+        }
+        #cas{
+            margin: 0%;
+            padding: 0%;
+            border: 0ch;
+            font-size: 20px;       
+        }
+        #place{
+            margin: 0%;
+            padding: 0%;
+            border: 0ch;
+            font-size: 20px; 
+        }
+        #profilepic{
+            position: absolute;
+            top: 110%;
+            padding-left: 21%;
+        }
+        #aboutme{
+            position: absolute;
+            font-family: Poppins;
+            font-weight: lighter;
+            top: 95%;
+            padding-left: 32%;
+            font-size: 2.5em;
+        }
+        #about{
+            margin: 0%;
+            padding: 0%;
+            border: 0ch;
+            position: absolute;
+            top: 160%;  
+            font-size: 25px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;         
+            text-align: justify;
+            padding-left: 10%;
+            padding-right: 15%;
+            padding-top: 2.5%;
+
+        }
+        #skill_bg{
+            position: absolute;
+            top: 200%;
+            width: 572px;
+            height: 1000px;
+            border: 0%;
+            padding: 0%;
+            margin: 0%;
+            padding-top: 78%;
+        }
+        #sandi{
+            position: absolute;
+            font-family: Code;
+            top: 300%;
+            padding-left: 40%;
+            font-size: 2em;  
+                    
+        }
+        #ski{
+            position: absolute;
+            top: -20%;
+            left:11.5%;
+            font-family: Nexa Text-Trial Light; 
+        }
+        .programming{
+            background-color: #0f0f0f;
+            height: 800px;
+            width: 400px;
+            position: absolute;
+            padding: 0%;
+            margin: 0%;
+            top: 340%;
+            left: 16%;
+            text-align: center;
+            border-radius: 5px;
+            font-family: Poppins;
+            font-weight: lighter;
+
+        }
+        #programming{
+            font-family: Poppins;
+            font-weight: lighter;
+        } 
+        #deploy{
+            font-family: Poppins;
+            font-weight: lighter;
+        } 
+        #graphicdes{
+            font-family: Poppins;
+            font-weight: lighter;
+        }
+        #problem{
+            font-family: Poppins;
+            font-weight: lighter;
+        }  
+        .contact{
+            position: absolute;
+            padding: 0%;
+            padding-bottom: 20%;
+            margin: 0%;
+            top: 480%;
+            left: 38%;
+            text-align: center;
+            font-family: Nexa Text-Trial Light;
+        }
+        #github{
+            position: absolute;
+            left: -120%;
+            top: 50%;
+        }
+        #linkedin{
+            position: absolute;
+            left: -28%;
+            top: 50%;
+        }
+        #ig{
+            position: absolute;
+            left: 70%;
+            top: 50%;
+        }
+        #fb{
+            position: absolute;
+            left: 155%;
+            top: 50%;
+        } 
+        #platform{
+            position: absolute;           
+        }          
+        ol{
+            text-decoration: none; 
+        }
+        }
