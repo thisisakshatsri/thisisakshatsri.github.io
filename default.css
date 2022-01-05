@@ -374,6 +374,7 @@ h5{
         justify-content: center;
     }
     #submit-btn{
+        display: flexbox;
         margin-top: 10px;
         margin-left: 190px;
         width: 100;
