@@ -373,4 +373,16 @@ h5{
     .right-column{
         justify-content: center;
     }
+    #submit-btn{
+        margin-top: 10px;
+        margin-left: 190px;
+        width: 100;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        color: #fff;
+        background-color: var(--btnColor);
+        border: 2px solid #17a2b8;
+        align-items: center;
+        transition: transform .2s;
+    }
 }
