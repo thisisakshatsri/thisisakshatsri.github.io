@@ -1,4 +1,4 @@
-# Harcourt Butler Technical University
+# Harcourt Butler Technical University Kanpur
 <div align="center">
 
 ## Time Table Of MCA-I 2021
