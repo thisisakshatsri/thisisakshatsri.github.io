@@ -6,7 +6,7 @@
 
 <div>
 <div align="center">
-  <table class="table table-sm table-bordered table-striped table-dark">
+  <table class="table table-sm table-bordered table-striped table-dark" align="center">
     <tr>
       <th>Days/Time</th>
       <th>10:00 to 10:50</th>
@@ -18,7 +18,7 @@
     </tr>
     <tr>
       <th>Monday</th>
-      <td id="pc-lab" colspan="2" align="center">PC LAB</td>
+      <td id="pc-lab" colspan="2">PC LAB</td>
       <td id="co">CO</td>
       <td id="os">OS</td>
       <td id="dms">DMS</td>
@@ -28,7 +28,7 @@
       <th>Tuesday</th>
       <td>No Class!</td>
       <td>OS</td>
-      <td id="ccp" colspan="2" align="center">CCP LAB</td>
+      <td id="ccp" colspan="2">CCP LAB</td>
       <td id="fom">FOM</td>
       <td id="ijp">IJP</td>
     </tr>
@@ -63,7 +63,7 @@
       <th>Saturday</th>
       <td>DMS</td>
       <td>IJP</td>
-      <td colspan="2" align="center">IJP LAB</td>
+      <td colspan="2">IJP LAB</td>
       <td>CCP</td>
       <td>No Class!</td>
     </tr>
