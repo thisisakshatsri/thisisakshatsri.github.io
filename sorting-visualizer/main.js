@@ -11,7 +11,7 @@ function init () {
     
     document.body.appendChild(renderer.domElement);
     
-    const geometry = new THREE.BoxGeometry( 2, 2, 2 );
+    const geometry = new THREE.BoxGeometry( 1, 1, 1 );
     const material = new THREE.MeshBasicMaterial( {color: 0x000645} );
     cube = new THREE.Mesh( geometry, material );
     scene.add( cube );
