@@ -1,0 +1,123 @@
+#array{
+    margin: 10px 0px 10px 0px;
+    width: 100%;
+}
+.heading{
+    font-size: 4rem;
+}
+
+body{
+    background-image: url('./textures/wall.jpg');
+}
+
+.block{
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.pile{
+    background-color: rgb(0, 1, 73);
+    height: 5px;
+    width: 20px;
+}
+.former{
+    margin-top: 20px;
+    padding: 10px;
+    margin-bottom: 50px;
+    
+}
+.algo{
+    margin: 0px 0px 0px 5px;
+}
+
+.un1{
+    background-color: red ;
+    height: 5px;
+    width: 20px;
+}
+.un2{
+    background-color: green;
+    height: 5px;
+    width: 20px;
+}
+
+.numbers{
+    display: inline-flex;
+    
+    
+}
+a{
+    text-decoration: none;
+    color: aqua;
+}
+.skills{
+    display: flexbox;
+    text-align: center;
+    align-content: center;
+    background-color: #1b1b1b;
+}
+.programming{
+    color: #ffd5d5;
+}
+
+p{
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    text-align: left;
+    margin: auto;
+    margin-left: 10%;
+    margin-right: 10%;
+
+}
+
+
+.post-wrapper{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 320px);
+    gap: 20px;
+    justify-content: center;
+    padding-bottom: 50px;
+
+}
+
+.post{
+    border: 1px solid var(--borderColor);
+    -webkit-box-shadow: -11px 1px 3px -1px rgba(0, 0, 0, 0.150 );
+    -moz-box-shadow: -11px 1px 3px -1px rgba(0, 0, 0, 0.150 );
+    box-shadow: -11px 1px 3px -1px rgba(0, 0, 0, 0.150 );
+}
+
+.thumbnail{
+    display: block;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.post-preview{
+    background-color: rgb(24, 24, 24);
+    padding: 15px;
+}
+
+.post-title{
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    margin: 0;
+    text-align: center;
+}
+
+.post-intro{
+    color: #ffffff;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+}
+
+@media screen and (max-width:1200px) {
+    .main-container{
+        width: 95%;
+    }
+}
+
+

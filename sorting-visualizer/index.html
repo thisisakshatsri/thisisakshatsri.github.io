@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&family=Press+Start+2P&family=Russo+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"  rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<title>Sorting Algorithm</title>
+
+<body background="">
+    <div class="container">
+        <h1 class="heading text-center" style="font-family: 'Russo One', sans-serif; color: rgb(219, 219, 219); ">Sorting Algorithm Visualizer</h1><br><br>
+        <div class=" display-inline box" style="color: aliceblue; font-family: 'Poppins', sans-serif;padding: 15px;">Select Sorting Algorithm:
+            <select name="algo" id="sortingAlgo">
+                <option value="insertion">Insertion Sort</option>
+                <option value="selection">Selection Sort</option>
+                <option value="bubble">Bubble Sort</option>
+            </select>
+        </div>
+        <br>
+
+
+        <div class="input-group mb-3">
+            <input type="text" id="array" placeholder="Enter Space Separated Array" class="form-control"
+                aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        </div>
+
+        <button onclick="generateArray()" class="btn btn-outline-primary">Generate random array</button>
+
+        <button onclick="validate()" type="button" class="btn btn-dark">Start Sorting</button>
+    </div>
+<br><br>
+            <div class="text-center">
+            <div class="card">
+                <div class="card-header">
+                    Simulation
+                </div>
+                <div>
+                    <div class="numbers">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+
+
+        <div data-aos="fade-left" data-aos-duration="1500" class="skills">
+            <div  class="programming"><br>
+                <h1 style="font-family: 'Russo One', sans-serif;">Sort Algorithm</h1><br><br>
+                 <p>Sorting Algorithms are used to sort a data structure according to a specific order relationship, such as numerical order or lexicographical order.<br><br>
+                    
+                    This operation is one of the most important and widespread in computer science. For a long time, new methods have been developed to make this procedure faster and faster.<br><br>
+                    
+                    There are currently hundreds of different sorting algorithms, each with its own specific characteristics. They are classified according to two metrics: space complexity and time complexity.<br><br>
+                    
+                    Those two kinds of complexity are represented with asymptotic notations, mainly with the symbols O, Θ, Ω, representing respectively the upper bound, the tight bound, and the lower bound of the algorithm's complexity, specifying in brackets an expression in terms of n, the number of the elements of the data structure.<br><br>
+                    
+                    Most of them fall into two categories:<br><br>
+                    
+                    <u style="font-size: 35px;">Logarithmic</u><br>
+                    The complexity is proportional to the binary logarithm (i.e to the base 2) of n.
+                    An example of a logarithmic sorting algorithm is Quick sort, with space and time complexity O(n × log n).<br><br>
+                    -&nbsp; Quick Sort<br>
+                    -&nbsp; Merge Sort<br>
+                    -&nbsp; Heap Sort<br><br>
+                    
+                    
+                    <u style="font-size: 35px;">Quadratic</u><br>
+                    The complexity is proportional to the square of n.
+                    An example of a quadratic sorting algorithm is Bubble sort, with a time complexity of O(n2).
+                    Space and time complexity can also be further subdivided into 3 different cases: best case, average case and worst case.<br><br>
+                    -&nbsp; Bubble Sort<br>
+                    -&nbsp; Selection Sort<br>
+                    -&nbsp; Insertion Sort<br>
+                    -&nbsp; Gnome Sort<br>
+                    -&nbsp; Shaker Sort<br>
+                    -&nbsp; OddEven Sort<br>
+                    -&nbsp; Pancake Sort<br><br>
+
+                     Have Fun!</p><br><br>
+            </div>
+        </div>
+
+
+        <section class="s1">
+            <div class="main-container"><br>
+                <div data-aos="zoom-in" data-aos-duration="1500" class="post-wrapper">
+                    <div class="post">
+                        <img class="thumbnail" src="textures/bubble.jpg">
+                        <div class="post-preview">
+                            <h6 class="post-title">Description</h6><br>
+                            <p class="post-intro"> Bubble Sort is an iterative sorting algorithm that imitates the movement of bubbles in sparkling water..<br><br>
+                                Complexity:
+                                <br>
+                                <b>Average Complexity:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
+                                <b>Best Case:</b>&nbsp;&nbsp;&nbsp;O(n)<br>
+                                <b>Worst Case:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
+                                <b>Space Complexity:&nbsp;&nbsp;&nbsp;</b>O(1)<br><br><br>
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="post">
+                        <img class="thumbnail" src="textures/selection.jpg">
+                        <div class="post-preview">
+                            <h6 class="post-title"><b>Description</b></h6><br>
+                            <p class="post-intro">The selection sort algorithm sorts an array by repeatedly finding the minimum element from unsorted part and putting it at the beginning.                            <br><br>
+                                Complexity:<br>
+                                <b>Average Complexity:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
+                                <b>Best Case:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
+                                <b>Worst Case:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
+                                <b>Space Complexity:&nbsp;&nbsp;&nbsp;</b>O(1)<br>    
+                            </p>
+                        </div>
+                    </div>
+    
+                    <div class="post">
+                        <img class="thumbnail" src="textures/insertion.jpg">
+                        <div class="post-preview">
+                            <h6 class="post-title">Description</h6><br>
+                            <p class="post-intro">The array is virtually split into a sorted and an unsorted part. Values from the unsorted part are picked and placed at the correct position in the sorted part.<br><br>
+                                Complexity:<br>
+                                <b>Average Complexity:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
+                                <b>Best Case:</b>&nbsp;&nbsp;&nbsp;O(n)<br>
+                                <b>Worst Case:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
+                                <b>Space Complexity:&nbsp;&nbsp;&nbsp;</b>O(1)<br>
+                            </p>
+                        </div>
+                    </div>
+    
+    
+                </div>
+
+                <h1 style="font-family: 'Russo One', sans-serif; text-align: center; color: aliceblue;">And, For No Reason!</h1>
+            </div>
+            
+        </section>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script> 
+    <script src="drawing.js"></script>
+    <script src="main.js">
+    </script>
+    <script src="sorting.js"></script>
+    <script src="algos.js"></script><br>
+    <p style="text-align: center; color: #ccd6f6; font-family: 'Roboto Mono', monospace;font-size: large;">
+        Design with ❤️  by <a href="http://thisisakshatsri.github.io">Akshat Srivastava</a><br> All Rights Reserved
+    </p>
+</body>
+</html>
