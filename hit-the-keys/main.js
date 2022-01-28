@@ -12,3 +12,4 @@ const key = document.querySelectorAll('.key');
        if(e.propertyName !== 'transform') return;
        this.classList.remove('playing');
    }));
+   $("#textinput").focus();
