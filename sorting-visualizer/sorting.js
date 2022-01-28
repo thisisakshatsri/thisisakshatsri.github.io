@@ -1,4 +1,4 @@
-var arr = [34, 23, 11, 9, 8,4,5,3,2,5,67,8,6,34,32,43,6,8,2,1];
+var arr = [34, 23];
 var block = '<div class="block"></div>';
 var piles = '<div class="pile"></div>';
 var q = document.querySelector(".numbers");

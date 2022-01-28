@@ -24,18 +24,6 @@ var draw = (arr) => {
     }
 };
 
-function dr() {
-    q.innerHTML = "";
-    for (let i = 0; i < arr.length; i++) {
-        const p = arr[i];
-        q.innerHTML += block;
-        var j = document.getElementsByClassName("block")[i];
-        for(let k=0; k<p; k++){
-            j.innerHTML += piles;
-        }
-    }
-}
-
 function sleep(milliseconds) {  
     return new Promise(resolve => setTimeout(resolve, milliseconds));  
 }
