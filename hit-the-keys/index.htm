@@ -1,131 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
-    </head>
-    <title>
-        Drum-Kit
-    </title>
-    <body style="background-color: cornsilk; font-family: 'Roboto Mono', monospace;">
-        <h1 class="display-1 text-center">Hit the Keys!</h1>
-         <div class="keys">
-            <div data-key = "65" class="key">
-                <button>A</button>
-            </div>
-            <div data-key = "66" class="key">
-                <kbd>B</kbd>
-            </div>
-            <div data-key = "67" class="key">
-                <kbd>C</kbd>
-            </div>
-            <div data-key = "68" class="key">
-                <kbd>D</kbd>
-            </div>
-            <div data-key = "69" class="key">
-                <kbd>E</kbd>
-            </div>
-            <div data-key = "70" class="key">
-                <kbd>F</kbd>
-            </div>
-            <div data-key = "71" class="key">
-                <kbd>G</kbd>
-            </div>
-            <div data-key = "72" class="key">
-                <kbd>H</kbd>
-            </div>
-            <div data-key = "73" class="key">
-                <kbd>I</kbd>
-            </div>
-            <div data-key = "74" class="key">
-                <kbd>J</kbd>
-            </div>
-            <div data-key = "75" class="key">
-                <kbd>K</kbd>
-            </div>
-            <div data-key = "76" class="key">
-                <kbd>L</kbd>
-            </div>
-            <div data-key = "77" class="key">
-                <kbd>M</kbd>
-            </div>
-            <div data-key = "78" class="key">
-                <kbd>N</kbd>
-            </div>
-            <div data-key = "79" class="key">
-                <kbd>O</kbd>
-            </div>
-            <div data-key = "80" class="key">
-                <kbd>P</kbd>
-            </div>
-            <div data-key = "81" class="key">
-                <kbd>Q</kbd>
-            </div>
-            <div data-key = "82" class="key">
-                <kbd>R</kbd>
-            </div>
-            <div data-key = "83" class="key">
-                <kbd>S</kbd>
-            </div>
-            <div data-key = "84" class="key">
-                <kbd>T</kbd>
-            </div>
-            <div data-key = "85" class="key">
-                <kbd>U</kbd>
-            </div>
-            <div data-key = "86" class="key">
-                <kbd>V</kbd>
-            </div>
-            <div data-key = "87" class="key">
-                <kbd>W</kbd>
-            </div>
-            <div data-key = "88" class="key">
-                <kbd>X</kbd>
-            </div>
-            <div data-key = "89" class="key">
-                <kbd>Y</kbd>
-            </div>
-            <div data-key = "90" class="key">
-                <kbd>Z</kbd>
-            </div>
-         </div>
-         <audio data-key="65" src="sounds/bubbles.mp3"></audio>
-         <audio data-key="66" src="sounds/clap.wav"></audio>
-         <audio data-key="67" src="sounds/clay.mp3"></audio>
-         <audio data-key="68" src="sounds/confetti.mp3"></audio>
-         <audio data-key="69" src="sounds/corona.mp3"></audio>
-         <audio data-key="70" src="sounds/flash-1.mp3"></audio>
-         <audio data-key="71" src="sounds/flash-2.mp3"></audio>
-         <audio data-key="72" src="sounds/flash-3.mp3"></audio>
-         <audio data-key="73" src="sounds/glimmer.mp3"></audio>
-         <audio data-key="74" src="sounds/hihat.wav"></audio>
-         <audio data-key="75" src="sounds/kick.wav"></audio>
-         <audio data-key="76" src="sounds/moon.mp3"></audio>
-         <audio data-key="77" src="sounds/openhat.wav"></audio>
-         <audio data-key="78" src="sounds/pinwheel.mp3"></audio>
-         <audio data-key="79" src="sounds/piston-1.mp3"></audio>
-         <audio data-key="80" src="sounds/piston-2.mp3"></audio>
-         <audio data-key="81" src="sounds/piston-3.mp3"></audio>
-         <audio data-key="82" src="sounds/prism-1.mp3"></audio>
-         <audio data-key="83" src="sounds/prism-2.mp3"></audio>
-         <audio data-key="84" src="sounds/prism-3.mp3"></audio>
-         <audio data-key="85" src="sounds/ride.wav"></audio>
-         <audio data-key="86" src="sounds/spiral.mp3"></audio>
-         <audio data-key="87" src="sounds/splits.mp3"></audio>
-         <audio data-key="88" src="sounds/squiggle.mp3"></audio>
-         <audio data-key="89" src="sounds/strike.mp3"></audio>
-         <audio data-key="90" src="sounds/suspension.mp3"></audio>
 
-         <blockquote class="blockquote text-center">
-            <p class="mb-0">Design & Built with ❤️ by <a target="_blank" href="http://thisisakshatsri.github.io">Akshat Srivastava</a>.</p>
-            <footer class="blockquote-footer">All rights reserved</cite></footer>
-          </blockquote>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<title>
+    Drum-Kit
+</title>
 
-         <script src="main.js">
-             
-         </script>
-    </body>
+<body style="background-color: cornsilk; font-family: 'Roboto Mono', monospace;">
+    <h1 class="display-1 text-center">Hit the Keys!</h1>
+    <div class="set">
+        <button class="a drum "></button>
+        <button class="b drum "></button>
+        <button class="c drum "></button>
+        <button class="d drum "></button>
+        <button class="e drum "></button>
+        <button class="f drum "></button>
+        <button class="g drum "></button>
+        <button class="h drum "></button>
+        <button class="i drum "></button>
+        <button class="j drum "></button>
+        <button class="k drum "></button>
+        <button class="l drum "></button>
+        <button class="m drum "></button>
+        <button class="n drum "></button>
+        <button class="o drum "></button>
+        <button class="p drum "></button>
+        <button class="q drum "></button>
+        <button class="r drum "></button>
+        <button class="s drum "></button>
+        <button class="t drum "></button>
+        <button class="u drum "></button>
+        <button class="v drum "></button>
+        <button class="w drum "></button>
+        <button class="x drum "></button>
+        <button class="y drum "></button>
+        <button class="z drum "></button>
+    </div>
+    <blockquote class="blockquote text-center">
+        <p class="mb-0">Design & Built with ❤️ by <a target="_blank" href="http://thisisakshatsri.github.io">Akshat
+                Srivastava</a>.</p>
+        <footer class="blockquote-footer">All rights reserved</cite></footer>
+    </blockquote>
+
+    <script src="main.js"></script>
+</body>
+
 </html>
