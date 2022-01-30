@@ -1,11 +1,23 @@
 body{
     text-align: center;
-    background-color: cornsilk;
+    background-color: rgb(0, 10, 68);
+}
+
+h1{
+    color: cyan;
+    font-size: 100px;
+
+    text-shadow: 2px 2px black;
+
+    text-align: center;
+
+
+
 }
 
 .drum{
     outline: none;
-    border: 10px solid black;
+    border: 2px solid rgb(50, 214, 159);
     font-size: 5rem;
     line-height: 2;
     font-weight: 900;
