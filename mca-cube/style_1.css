@@ -1,0 +1,26 @@
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Poppins', sans-serif;
+
+}
+.teams{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: space-between;
+    font-family: 'Poppins', sans-serif;
+}
+ul{
+    list-style: none;
+}
+#navigation{
+    margin: 0;
+    padding: 10px;
+    
+}
+
+#navigation li{
+    text-align: right;
+    display: inline-block;
+    
+}
