@@ -57,5 +57,5 @@ function getJoke() {
 document.getElementById('button').addEventListener('click', function(){ 
     setButtonState(true);
     setLoaderState(true);
-    getJoke();
+      getJoke();
 })
