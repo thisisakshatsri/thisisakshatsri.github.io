@@ -44,8 +44,7 @@ body{
 
 .numbers{
     display: inline-flex;
-    
-    
+    justify-content: center; 
 }
 a{
     text-decoration: none;
@@ -118,6 +117,10 @@ p{
     .main-container{
         width: 95%;
     }
+}
+.simul{
+    height: 200px;
+    width: auto;
 }
 
 
