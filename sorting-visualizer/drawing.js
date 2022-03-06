@@ -1,5 +1,5 @@
 function generateArray(){
-    var size = 12;
+    var size = 10;
     let n
     let q = document.querySelector("#array")
     q.value = ""
