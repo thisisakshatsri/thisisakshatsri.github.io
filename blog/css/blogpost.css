@@ -39,3 +39,11 @@
     align-self: center;
     cursor: pointer;
 }
+.fb-comments{
+    position: absolute !important;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    width: 550px;
+}
