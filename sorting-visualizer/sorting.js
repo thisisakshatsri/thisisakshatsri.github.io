@@ -68,4 +68,8 @@ let simulate = (arr) => {
         selectionSort(arr)
     else if(algo == "bubble")
         bubbleSort(arr)   
+    else if(algo == "quick")
+        quickSort(arr)
+    else if(algo == "merge")
+        mergeSort(arr)
 }
