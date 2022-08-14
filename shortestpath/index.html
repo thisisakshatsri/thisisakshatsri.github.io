@@ -5,8 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <title>PathFinder</title>
+    <title>Graph Visualisation</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <link rel = "stylesheet" href = "main.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
     <style>
@@ -27,15 +28,20 @@
             flex-wrap: nowrap;
             padding: 0px;
         }
+        p{
+            font-family: 'Source Code Pro', monospace;
+            text-decoration: none;
+        }
         body{
             font-family: 'Poppins', sans-serif;
             background-color: #ABC9FF;
         }
+        
     </style>
 
 </head><br>
 <body>
-
+<br>
     <div class="container">
         <div class="text-center display-4">
             Shortest - Path
@@ -55,11 +61,11 @@
             </div>
 
             <div class="col-2 justify-content-center col-sm-2">
-                <button id="simulate" class="btn btn-success 2">Simulate</button>
+                <button id="generate" class="btn btn-info 2">Generate Maze</button>
             </div>
 
             <div class="col-2 justify-content-center col-sm-2">
-                <button id="generate" class="btn btn-info 2">Generate Maze</button>
+                <button id="simulate" class="btn btn-success 2">Simulate</button>
             </div>
             <div class="col">
                 <button id="resetfull" class="float-end btn btn-warning ">Reset Board</button>
@@ -106,5 +112,7 @@
     <script>
       AOS.init();
     </script>
+    <p class="text-center">Design with ❤️ by <a href="http://thisisakshatsri.github.io">Akshat Srivastava</a>
+        <br>All Rights Reserved</p>
 </body>
 </html>
