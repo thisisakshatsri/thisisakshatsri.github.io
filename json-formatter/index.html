@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+</head>
+
+<body>
+    <div class="github">
+        <h5>JUST FOR FUN container!</h5>
+        <textarea class="small-area" id="githubUsername" placeholder="Enter your GitHub username"></textarea><br>
+        <button type="button" class="controls__button-git controls__button--get-stats">Get Your GitHub Stats in JSON Format</button>
+    </div>
+    <div class="controls">
+        <button type="button" class="controls__button controls__button--format">Format</button>
+        <button type="button" class="controls__button controls__button--minify">Minify</button>
+    </div>
+    <div class="container">
+        <textarea class="large-area large-area--input" placeholder="Enter your JSON">
+            {"name": "Akshat"}
+        </textarea>
+        <textarea readonly class="large-area large-area--output" placeholder="Your result"></textarea>
+    </div>
+</body>
+<p style="text-align: center; color: #ccd6f6; font-family: 'Roboto Mono', monospace;">
+    Design & Built by Akshat Srivastava<br><br> All Rights Reserved
+</p>
+</html>

@@ -1,0 +1,89 @@
+body {
+    margin: 0;
+    background: #333333;
+}
+.container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    height: 100vh;
+    box-sizing: border-box;
+    padding: 20px;
+    gap: 20px;
+}
+.large-area {
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #aaaaaa;
+    background: #444444;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    resize: none;
+    font-family: monospace;
+    transition: background 0.25s, color 0.25s;
+}
+.large-area:hover,
+.large-area:focus {
+    background: #4a4a4a;
+}
+.large-area:focus {
+    color: #eeeeee;
+}
+.controls__button {
+    display: inline;
+    padding: 8px 14px;
+    align-items: center;
+    position: relative;
+    left: 45%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #eeeeee;
+    font-weight: bold;
+    background: #009577;
+}
+.controls__button-git {
+    padding: 8px 14px;
+    align-items: center;
+    position: relative;
+    border-radius: 5px;
+    left: 10%;
+    margin-bottom: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #eeeeee;
+    font-weight: bold;
+    background: #009577;
+}
+.controls__button:active{
+    background: #007058;
+}
+.small-area{
+    margin-top: 20px;
+    margin-left:10%;
+    outline: navajowhite;
+    resize: none;
+    border-radius: 10px;
+    width: 50%;
+    text-align: center;
+}
+
+.github{
+    border: 1px solid yellow;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 40%;
+}
+h5{
+    font-family: monospace;
+    margin-bottom: 0;
+    text-align: center;
+    color: antiquewhite;
+}
