@@ -118,6 +118,7 @@ const EDIT_PASSWORD = 'qwerty1234!@#$';
 function toggleEditMode() {
   isEditMode = !isEditMode;
   const textareas = document.querySelectorAll('.editable');
+  const draggableCells = document.querySelectorAll('.draggable');
   
   textareas.forEach(textarea => {
     textarea.readOnly = !isEditMode;
@@ -132,10 +133,19 @@ function toggleEditMode() {
   editBtn.style.display = isEditMode ? 'none' : 'flex';
   saveBtn.style.display = isEditMode ? 'flex' : 'none';
 
-  // Toggle draggable attribute
-  const draggableCells = document.querySelectorAll('.draggable');
+  // Toggle draggable state and event listeners
   draggableCells.forEach(cell => {
     cell.setAttribute('draggable', isEditMode.toString());
+    
+    if (isEditMode) {
+      cell.addEventListener("dragstart", handleDragStart);
+      cell.addEventListener("dragover", handleDragOver);
+      cell.addEventListener("drop", handleDrop);
+    } else {
+      cell.removeEventListener("dragstart", handleDragStart);
+      cell.removeEventListener("dragover", handleDragOver);
+      cell.removeEventListener("drop", handleDrop);
+    }
   });
 }
 
@@ -153,7 +163,7 @@ function renderTimetable() {
     row.periods.forEach((period, colIndex) => {
       const td = document.createElement("td");
       td.classList.add("draggable");
-      td.setAttribute("draggable", "true");
+      td.setAttribute("draggable", "false"); // Set initial draggable to false
 
       const textarea = document.createElement("textarea");
       textarea.value = period;
@@ -170,10 +180,12 @@ function renderTimetable() {
       td.appendChild(textarea);
       tr.appendChild(td);
 
-      // Add drag-and-drop functionality
-      td.addEventListener("dragstart", handleDragStart);
-      td.addEventListener("dragover", handleDragOver);
-      td.addEventListener("drop", handleDrop);
+      // Add drag-and-drop functionality only if in edit mode
+      if (isEditMode) {
+        td.addEventListener("dragstart", handleDragStart);
+        td.addEventListener("dragover", handleDragOver);
+        td.addEventListener("drop", handleDrop);
+      }
     });
 
     timetableBody.appendChild(tr);
@@ -184,6 +196,10 @@ let draggedElement = null;
 
 // Drag-and-Drop Handlers
 function handleDragStart(e) {
+  if (!isEditMode) {
+    e.preventDefault();
+    return;
+  }
   draggedElement = e.target;
   e.dataTransfer.effectAllowed = "move";
 }
