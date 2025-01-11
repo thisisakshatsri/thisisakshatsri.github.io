@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Timetable</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Include html2canvas library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  <div class="background-container">
+    <div class="background-overlay"></div>
+  </div>
+  <div class="content-wrapper">
+    <h1> Timetable</h1>
+    <div id="timetable-container">
+      <table id="timetable">
+        <thead>
+          <tr>
+            <th>Days/Periods</th>
+            <th>8:00-8:50</th>
+            <th>8:55-9:45</th>
+            <th>9:50-10:40</th>
+            <th>10:45-11:35</th>
+            <th>11:40-12:30</th>
+            <th>12:30-1:25</th>
+            <th>1:30-2:20</th>
+            <th>2:25-3:20</th>
+          </tr>
+        </thead>
+        <tbody id="timetable-body">
+          <!-- Dynamic content will be added via JavaScript -->
+        </tbody>
+      </table>
+      <!-- Export Button -->
+      <button id="export-btn" class="export-button">
+        <svg class="export-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+          <path d="M12 16l-4-4h3V4h2v8h3l-4 4zm9-13h-6v2h4v12H5V5h4V3H3v16h18V3z"/>
+        </svg>
+        Export Screenshot
+      </button>
+    </div>
+  </div>
+  <footer class="footer">
+    <p>Designed with <span class="heart">❤️</span> by Akshat</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
