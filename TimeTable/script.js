@@ -111,6 +111,9 @@ let isEditMode = false;
 const editBtn = document.getElementById('edit-btn');
 const saveBtn = document.getElementById('save-btn');
 
+// Add this at the top with your other constants
+const EDIT_PASSWORD = 'qwerty1234!@#$';
+
 // Add this function to toggle edit mode
 function toggleEditMode() {
   isEditMode = !isEditMode;
@@ -240,7 +243,21 @@ document.getElementById('export-btn').addEventListener('click', function () {
 
 // Add event listeners for the buttons
 editBtn.addEventListener('click', () => {
-  toggleEditMode();
+  const password = prompt('Please enter the password to edit:');
+  
+  if (password === EDIT_PASSWORD) {
+    toggleEditMode();
+  } else {
+    // Show error notification
+    const notification = document.createElement('div');
+    notification.className = 'error-notification';
+    notification.textContent = 'Incorrect password!';
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.remove();
+    }, 3000);
+  }
 });
 
 saveBtn.addEventListener('click', () => {
@@ -286,6 +303,33 @@ style.textContent = `
   }
 `;
 document.head.appendChild(style);
+
+// Add this CSS for the error notification
+const notificationStyles = document.createElement('style');
+notificationStyles.textContent = `
+  .error-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ef4444;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-out, fadeOut 0.3s ease-in 2.7s;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+`;
+document.head.appendChild(notificationStyles);
 
 // Initial render
 renderTimetable();
