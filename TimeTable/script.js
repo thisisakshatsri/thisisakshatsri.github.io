@@ -1,3 +1,5 @@
+console.log('Initial localStorage:', localStorage.getItem('timetableData'));
+
 const timetableData = [
   {
     day: "Monday",
@@ -84,8 +86,25 @@ const timetableBody = document.getElementById("timetable-body");
 // Get data from localStorage or use default timetableData
 const getStoredData = () => {
   const storedData = localStorage.getItem('timetableData');
-  return storedData ? JSON.parse(storedData) : timetableData;
+  if (storedData) {
+    console.log('Found stored data:', JSON.parse(storedData));
+    return JSON.parse(storedData);
+  }
+  console.log('Using default data');
+  // Save default data to localStorage on first visit
+  localStorage.setItem('timetableData', JSON.stringify(timetableData));
+  return timetableData;
 };
+
+// Add this to verify changes are being saved
+function saveToLocalStorage(updatedData) {
+  try {
+    localStorage.setItem('timetableData', JSON.stringify(updatedData));
+    console.log('Data saved successfully:', updatedData);
+  } catch (error) {
+    console.error('Error saving to localStorage:', error);
+  }
+}
 
 function renderTimetable() {
   timetableBody.innerHTML = ""; // Clear existing content
@@ -111,7 +130,7 @@ function renderTimetable() {
       textarea.addEventListener('change', (e) => {
         const updatedData = getStoredData();
         updatedData[rowIndex].periods[colIndex] = e.target.value;
-        localStorage.setItem('timetableData', JSON.stringify(updatedData));
+        saveToLocalStorage(updatedData);
       });
 
       td.appendChild(textarea);
