@@ -208,3 +208,55 @@ h1 {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.1); }
 }
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edit-button {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  color: white;
+}
+
+.save-button {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  color: white;
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.action-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button-icon {
+  fill: currentColor;
+}
+
+/* Add this to style textareas in view mode */
+.editable[readonly] {
+  background: transparent;
+  border: none;
+  pointer-events: none;
+  resize: none;
+}

@@ -106,6 +106,36 @@ function saveToLocalStorage(updatedData) {
   }
 }
 
+// Add these variables at the top of your script
+let isEditMode = false;
+const editBtn = document.getElementById('edit-btn');
+const saveBtn = document.getElementById('save-btn');
+
+// Add this function to toggle edit mode
+function toggleEditMode() {
+  isEditMode = !isEditMode;
+  const textareas = document.querySelectorAll('.editable');
+  
+  textareas.forEach(textarea => {
+    textarea.readOnly = !isEditMode;
+    if (isEditMode) {
+      textarea.removeAttribute('readonly');
+    } else {
+      textarea.setAttribute('readonly', 'true');
+    }
+  });
+
+  // Toggle button visibility
+  editBtn.style.display = isEditMode ? 'none' : 'flex';
+  saveBtn.style.display = isEditMode ? 'flex' : 'none';
+
+  // Toggle draggable attribute
+  const draggableCells = document.querySelectorAll('.draggable');
+  draggableCells.forEach(cell => {
+    cell.setAttribute('draggable', isEditMode.toString());
+  });
+}
+
 function renderTimetable() {
   timetableBody.innerHTML = ""; // Clear existing content
   const currentData = getStoredData();
@@ -125,6 +155,7 @@ function renderTimetable() {
       const textarea = document.createElement("textarea");
       textarea.value = period;
       textarea.classList.add("editable");
+      textarea.setAttribute('readonly', 'true');
 
       // Add event listener for changes
       textarea.addEventListener('change', (e) => {
@@ -206,6 +237,55 @@ document.getElementById('export-btn').addEventListener('click', function () {
     link.click();
   });
 });
+
+// Add event listeners for the buttons
+editBtn.addEventListener('click', () => {
+  toggleEditMode();
+});
+
+saveBtn.addEventListener('click', () => {
+  toggleEditMode();
+  // Save the current state to localStorage
+  const updatedData = getStoredData();
+  saveToLocalStorage(updatedData);
+  
+  // Show a save confirmation
+  const notification = document.createElement('div');
+  notification.className = 'save-notification';
+  notification.textContent = 'Changes saved successfully!';
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+});
+
+// Add this CSS for the save notification
+const style = document.createElement('style');
+style.textContent = `
+  .save-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #10b981;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-out, fadeOut 0.3s ease-in 2.7s;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+`;
+document.head.appendChild(style);
 
 // Initial render
 renderTimetable();
