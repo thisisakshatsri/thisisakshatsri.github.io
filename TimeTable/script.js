@@ -20,64 +20,76 @@ function initializeTimetable() {
     }
 }
 
-function renderTimetable() {
-    timetableBody.innerHTML = "";
-    const currentData = utils.getStoredData();
-    console.log('Rendering data:', currentData);
-
-    if (!currentData || !Array.isArray(currentData)) {
-        console.error('Invalid or missing data:', currentData);
+function renderTimetable(data) {
+    console.log('Starting render with data:', data);
+    const tableBody = document.getElementById('timetable-body');
+    if (!tableBody) {
+        console.error('Timetable body element not found!');
         return;
     }
 
-    currentData.forEach((row, rowIndex) => {
-        const tr = document.createElement("tr");
+    // Clear existing content
+    tableBody.innerHTML = '';
 
+    // Create data rows
+    data.forEach((dayData) => {
+        console.log('Rendering day:', dayData.day);
+        const row = document.createElement('tr');
+        
         // Add day cell
-        const dayCell = document.createElement("td");
-        dayCell.textContent = row.day;
-        dayCell.classList.add('day-cell');
-        tr.appendChild(dayCell);
+        const dayCell = document.createElement('td');
+        dayCell.className = 'day-cell';
+        dayCell.textContent = dayData.day;
+        row.appendChild(dayCell);
 
         // Add period cells
-        row.periods.forEach((period, colIndex) => {
-            const td = document.createElement("td");
-            td.classList.add("draggable");
-            td.setAttribute("draggable", "false");
-
-            const textarea = document.createElement("textarea");
-            textarea.value = period || '';
-            textarea.classList.add("editable");
-            textarea.setAttribute('readonly', 'true');
-            textarea.spellcheck = false;
-
-            // Save changes immediately on input
-            textarea.addEventListener('input', (e) => {
-                saveChange(rowIndex, colIndex, e.target.value);
-            });
-
-            // Handle blur event to ensure data is saved
-            textarea.addEventListener('blur', (e) => {
-                saveChange(rowIndex, colIndex, e.target.value);
-            });
-
-            td.appendChild(textarea);
-            tr.appendChild(td);
-
-            // Add drag-and-drop functionality
-            td.addEventListener("dragstart", utils.handleDragStart);
-            td.addEventListener("dragover", utils.handleDragOver);
-            td.addEventListener("drop", (e) => {
-                utils.handleDrop(e);
-                // Re-render after drop to ensure changes are displayed
-                renderTimetable();
-            });
+        dayData.periods.forEach((periodData) => {
+            const cell = document.createElement('td');
+            const textarea = document.createElement('textarea');
+            textarea.className = 'editable';
+            textarea.value = periodData || '';
+            textarea.readOnly = true;
+            textarea.rows = 4;
+            cell.appendChild(textarea);
+            row.appendChild(cell);
         });
 
-        timetableBody.appendChild(tr);
-    });
+        // Fill remaining cells if needed
+        const remainingCells = 9 - dayData.periods.length;
+        for (let i = 0; i < remainingCells; i++) {
+            const cell = document.createElement('td');
+            const textarea = document.createElement('textarea');
+            textarea.className = 'editable';
+            textarea.readOnly = true;
+            textarea.rows = 4;
+            cell.appendChild(textarea);
+            row.appendChild(cell);
+        }
 
-    adjustTextareaHeights();
+        tableBody.appendChild(row);
+    });
+    
+    console.log('Render complete');
+
+    // Add event listeners for edit functionality
+    if (editBtn && saveBtn) {
+        editBtn.addEventListener('click', () => {
+            document.querySelectorAll('.editable').forEach(textarea => {
+                textarea.readOnly = false;
+            });
+            editBtn.style.display = 'none';
+            saveBtn.style.display = 'inline-flex';
+        });
+
+        saveBtn.addEventListener('click', () => {
+            document.querySelectorAll('.editable').forEach(textarea => {
+                textarea.readOnly = true;
+            });
+            saveBtn.style.display = 'none';
+            editBtn.style.display = 'inline-flex';
+            // Add save functionality here if needed
+        });
+    }
 }
 
 function saveChange(rowIndex, colIndex, value) {
@@ -97,27 +109,13 @@ function adjustTextareaHeights() {
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM Content Loaded');
-    initializeTimetable();
-    renderTimetable();
+    if (typeof timetableData === 'undefined') {
+        console.error('Timetable data not loaded!');
+        return;
+    }
+    console.log('Script initialized with data:', timetableData);
+    renderTimetable(timetableData);
     
-    // Add event listeners
-    editBtn.addEventListener('click', () => {
-        const password = prompt('Please enter the password to edit:');
-        if (password === CONFIG.EDIT_PASSWORD) {
-            toggleEditMode();
-        } else {
-            utils.showNotification('Incorrect password!', 'error');
-        }
-    });
-
-    saveBtn.addEventListener('click', () => {
-        const currentData = utils.getStoredData();
-        utils.saveToLocalStorage(currentData);
-        toggleEditMode();
-        utils.showNotification('Changes saved successfully!');
-        renderTimetable(); // Re-render to ensure all changes are displayed
-    });
-
     // Add window resize listener to adjust textarea heights
     window.addEventListener('resize', adjustTextareaHeights);
 
@@ -154,6 +152,38 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', 'dark');
         updateThemeIcon('dark');
     }
+
+    // Initialize drag and drop
+    initializeDragAndDrop();
+    
+    // Re-initialize after any content changes
+    const observer = new MutationObserver(() => {
+        initializeDragAndDrop();
+    });
+    
+    observer.observe(document.getElementById('timetable'), {
+        childList: true,
+        subtree: true
+    });
+
+    // Enable scrolling for all textareas regardless of edit mode
+    document.querySelectorAll('.editable').forEach(textarea => {
+        textarea.addEventListener('wheel', (e) => {
+            if (textarea.scrollHeight > textarea.clientHeight) {
+                const scrollTop = textarea.scrollTop;
+                const scrollHeight = textarea.scrollHeight;
+                const height = textarea.clientHeight;
+                
+                // Allow scrolling if there's more content
+                if ((e.deltaY < 0 && scrollTop > 0) || 
+                    (e.deltaY > 0 && scrollTop < scrollHeight - height)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    textarea.scrollTop += e.deltaY;
+                }
+            }
+        }, { passive: false });
+    });
 });
 
 function toggleEditMode() {
@@ -161,25 +191,39 @@ function toggleEditMode() {
     window.isEditMode = isEditMode;
     
     const textareas = document.querySelectorAll('.editable');
-    const draggableCells = document.querySelectorAll('.draggable');
-    
     textareas.forEach(textarea => {
         textarea.readOnly = !isEditMode;
+        textarea.style.cursor = isEditMode ? 'move' : 'default';
     });
 
-    draggableCells.forEach(cell => {
-        cell.setAttribute('draggable', isEditMode.toString());
-    });
-
+    const editBtn = document.getElementById('edit-btn');
+    const saveBtn = document.getElementById('save-btn');
+    
     editBtn.style.display = isEditMode ? 'none' : 'flex';
     saveBtn.style.display = isEditMode ? 'flex' : 'none';
+
+    // Show notification
+    const message = isEditMode ? 'Edit mode enabled - You can now drag cells to swap them' : 'Changes saved';
+    showNotification(message);
+}
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    // Remove after animation
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
 }
 
 // Reset functionality
 function resetToDefaultData() {
     if (confirm('Are you sure you want to reset to default data? This cannot be undone.')) {
         localStorage.setItem('timetableData', JSON.stringify(timetableData));
-        renderTimetable();
+        renderTimetable(timetableData);
         utils.showNotification('Timetable reset to default!');
     }
 }
@@ -403,3 +447,61 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e =
         updateThemeIcon(newTheme);
     }
 });
+
+function initializeDragAndDrop() {
+    const textareas = document.querySelectorAll('.editable');
+    let draggedTextarea = null;
+
+    textareas.forEach(textarea => {
+        // Enable dragging
+        textarea.addEventListener('mousedown', function(e) {
+            if (!isEditMode) return;
+            draggedTextarea = this;
+            this.classList.add('dragging');
+        });
+
+        // Handle drag over
+        textarea.addEventListener('mouseover', function(e) {
+            if (!isEditMode || !draggedTextarea) return;
+            if (this !== draggedTextarea) {
+                this.classList.add('drag-over');
+            }
+        });
+
+        // Handle drag leave
+        textarea.addEventListener('mouseout', function(e) {
+            if (!isEditMode) return;
+            this.classList.remove('drag-over');
+        });
+
+        // Handle drop
+        textarea.addEventListener('mouseup', function(e) {
+            if (!isEditMode || !draggedTextarea) return;
+            
+            if (this !== draggedTextarea) {
+                // Swap content
+                const tempValue = this.value;
+                this.value = draggedTextarea.value;
+                draggedTextarea.value = tempValue;
+            }
+
+            // Clean up
+            textareas.forEach(ta => {
+                ta.classList.remove('dragging');
+                ta.classList.remove('drag-over');
+            });
+            draggedTextarea = null;
+        });
+    });
+
+    // Clean up if mouse is released outside of any textarea
+    document.addEventListener('mouseup', function() {
+        if (draggedTextarea) {
+            textareas.forEach(ta => {
+                ta.classList.remove('dragging');
+                ta.classList.remove('drag-over');
+            });
+            draggedTextarea = null;
+        }
+    });
+}
