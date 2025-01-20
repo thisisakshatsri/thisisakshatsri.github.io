@@ -1,3 +1,6 @@
+// Add this at the top of data.js
+console.log('Data file loaded successfully');
+
 // Initial timetable data
 const timetableData = [
   {
@@ -85,4 +88,7 @@ const timetableData = [
 // Export the data
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { timetableData };
-} 
+}
+
+// Add this at the bottom
+console.log('Timetable data:', timetableData); 
