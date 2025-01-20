@@ -1,8 +1,10 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   position: relative;
+  padding: 20px;
+  background: #f3f4f6;
 }
 
 .background-container {
@@ -844,5 +846,59 @@ textarea:not([readonly]) {
 /* Fix potential z-index issues */
 .timetable-container {
     isolation: isolate;
+}
+
+/* Edit button specific styles */
+#edit-btn {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    border: none;
+    padding: 8px 16px;
+    color: white;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+}
+
+#edit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
+    background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+}
+
+#edit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+}
+
+#edit-btn i {
+    font-size: 1.1em;
+    margin-right: 6px;
+}
+
+/* Save button (when edit is active) */
+#save-btn {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    border: none;
+    padding: 8px 16px;
+    color: white;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(5, 150, 105, 0.2);
+}
+
+#save-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(5, 150, 105, 0.3);
+    background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+}
+
+#save-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(5, 150, 105, 0.2);
+}
+
+#save-btn i {
+    font-size: 1.1em;
+    margin-right: 6px;
 }
 

@@ -140,6 +140,20 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.log('html2canvas loaded successfully');
     }
+
+    console.log('Initializing search functionality');
+    initializeSearch();
+
+    // Initialize theme toggle
+    initializeThemeToggle();
+    
+    // Check system preference
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark && !localStorage.getItem('theme')) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        updateThemeIcon('dark');
+    }
 });
 
 function toggleEditMode() {
@@ -251,4 +265,141 @@ async function exportScreenshot() {
 // Add debugging information
 window.addEventListener('error', function(e) {
     console.error('Global error:', e.error);
+});
+
+// Search functionality
+function initializeSearch() {
+    const searchInput = document.getElementById('search-input');
+    const clearButton = document.querySelector('.clear-search');
+
+    if (!searchInput || !clearButton) {
+        console.error('Search elements not found');
+        return;
+    }
+
+    // Search event listener
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        
+        // Show/hide clear button
+        clearButton.style.display = searchTerm ? 'block' : 'none';
+        
+        // Get all cells with content
+        const cells = document.querySelectorAll('#timetable td .editable');
+        let foundMatch = false;
+
+        cells.forEach(cell => {
+            const content = cell.value.toLowerCase();
+            const parentCell = cell.closest('td');
+            
+            if (searchTerm === '') {
+                // Reset styles if search is empty
+                parentCell.style.backgroundColor = '';
+                cell.style.opacity = '1';
+            } else if (content.includes(searchTerm)) {
+                // Highlight matches
+                parentCell.style.backgroundColor = '#fef3c7';
+                cell.style.opacity = '1';
+                foundMatch = true;
+            } else {
+                // Dim non-matches
+                parentCell.style.backgroundColor = '';
+                cell.style.opacity = '0.3';
+            }
+        });
+
+        // Update no results message
+        updateNoResultsMessage(searchTerm, foundMatch);
+    });
+
+    // Clear button event listener
+    clearButton.addEventListener('click', function() {
+        searchInput.value = '';
+        clearButton.style.display = 'none';
+        
+        // Reset all cells
+        document.querySelectorAll('#timetable td .editable').forEach(cell => {
+            const parentCell = cell.closest('td');
+            parentCell.style.backgroundColor = '';
+            cell.style.opacity = '1';
+        });
+        
+        // Hide no results message
+        updateNoResultsMessage('', true);
+    });
+}
+
+function updateNoResultsMessage(searchTerm, foundMatch) {
+    let messageElement = document.getElementById('no-results-message');
+    
+    if (!messageElement) {
+        messageElement = document.createElement('div');
+        messageElement.id = 'no-results-message';
+        messageElement.className = 'no-results';
+        document.querySelector('.search-container').appendChild(messageElement);
+    }
+
+    if (searchTerm && !foundMatch) {
+        messageElement.textContent = `No results found for "${searchTerm}"`;
+        messageElement.style.display = 'block';
+    } else {
+        messageElement.style.display = 'none';
+    }
+}
+
+// Theme Toggle Implementation
+function initializeThemeToggle() {
+    // Create theme toggle button if it doesn't exist
+    let themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) {
+        themeToggle = document.createElement('button');
+        themeToggle.id = 'theme-toggle';
+        themeToggle.className = 'action-btn theme-toggle';
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        
+        // Add to button container
+        const buttonContainer = document.querySelector('.button-container');
+        if (buttonContainer) {
+            buttonContainer.appendChild(themeToggle);
+        }
+    }
+
+    // Get initial theme
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    updateThemeIcon(currentTheme);
+
+    // Theme toggle click handler
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        // Update theme
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+        
+        // Show notification
+        utils.showNotification(`Switched to ${newTheme} mode`);
+    });
+}
+
+// Update theme icon
+function updateThemeIcon(theme) {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.innerHTML = theme === 'dark' 
+            ? '<i class="fas fa-sun"></i>' 
+            : '<i class="fas fa-moon"></i>';
+        themeToggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
+    }
+}
+
+// Listen for system theme changes
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateThemeIcon(newTheme);
+    }
 });
