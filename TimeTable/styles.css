@@ -48,6 +48,7 @@ body {
     0 2px 4px -1px rgba(0, 0, 0, 0.06),
     0 0 0 1px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(12px);
+  isolation: isolate;
 }
 
 h1 {
@@ -103,15 +104,18 @@ h1 {
 /* Textarea styling */
 .editable {
   width: 100%;
-  min-height: 50px;
+  height: 100%;
+  min-height: 100px;
+  resize: none;
   border: none;
   background: transparent;
-  resize: none;
   font-family: inherit;
-  font-size: 0.95rem;
-  color: #374151;
-  padding: 4px;
-  transition: all 0.2s ease;
+  font-size: 14px;
+  text-align: center;
+  padding: 8px;
+  white-space: pre-line;
+  overflow-y: auto;
+  line-height: 1.4;
 }
 
 .editable:focus {
@@ -260,3 +264,585 @@ h1 {
   pointer-events: none;
   resize: none;
 }
+
+/* Utility Buttons */
+.utility-buttons {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.utility-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.reset-button {
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+}
+
+.print-button {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+}
+
+.theme-button {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+}
+
+.utility-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Search Box */
+.search-container {
+  margin: 20px 0;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Dark Mode Styles */
+[data-theme="dark"] {
+  background-color: #1f2937;
+  color: #f3f4f6;
+}
+
+[data-theme="dark"] #timetable-container {
+  background: rgba(31, 41, 55, 0.95);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] #timetable {
+  background: #374151;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] #timetable th {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: #ffffff;
+}
+
+[data-theme="dark"] #timetable td {
+  border-color: #4b5563;
+  color: #f3f4f6;
+}
+
+[data-theme="dark"] #timetable td:first-child {
+  background-color: #374151;
+  color: #f3f4f6;
+}
+
+[data-theme="dark"] .editable {
+  color: #f3f4f6;
+  background: transparent;
+}
+
+[data-theme="dark"] .editable:focus {
+  background-color: #4b5563;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .search-input {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: #f3f4f6;
+}
+
+[data-theme="dark"] .search-input::placeholder {
+  color: #9ca3af;
+}
+
+/* Update background for dark mode */
+[data-theme="dark"] .background-container {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+}
+
+[data-theme="dark"] .background-overlay {
+  opacity: 0.5;
+}
+
+/* Update highlighted cells in dark mode */
+[data-theme="dark"] #timetable td[style*="background-color"] {
+  background-color: #4b5563 !important;
+  color: #f3f4f6;
+}
+
+/* Make sure buttons remain visible in dark mode */
+[data-theme="dark"] .utility-button,
+[data-theme="dark"] .action-button,
+[data-theme="dark"] .export-button {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure notifications are visible in dark mode */
+[data-theme="dark"] .save-notification,
+[data-theme="dark"] .error-notification {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Update hover states for dark mode */
+[data-theme="dark"] #timetable td:hover {
+  background-color: #4b5563;
+}
+
+[data-theme="dark"] .editable[readonly] {
+  color: #f3f4f6;
+}
+
+/* Print Styles */
+@media print {
+  .utility-buttons,
+  .button-container,
+  .search-container {
+    display: none;
+  }
+  
+  #timetable-container {
+    box-shadow: none;
+  }
+}
+
+/* Layout organization */
+.controls-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.utility-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.search-container {
+  flex-grow: 1;
+  max-width: 400px;
+}
+
+.button-container {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .controls-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-container {
+    max-width: none;
+  }
+
+  .utility-buttons {
+    justify-content: center;
+  }
+}
+
+/* Add styles for tooltips */
+.has-note {
+  position: relative;
+}
+
+.has-note::after {
+  content: "📝";
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 12px;
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: absolute;
+  background: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  max-width: 200px;
+  word-wrap: break-word;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: transparent transparent #333 transparent;
+}
+
+/* Dark mode tooltip */
+[data-theme="dark"] .tooltip {
+  background: #4b5563;
+  color: #f3f4f6;
+}
+
+[data-theme="dark"] .tooltip::before {
+  border-color: transparent transparent #4b5563 transparent;
+}
+
+/* Style for empty cells */
+.editable:empty::before {
+  content: '-';
+  color: #ccc;
+}
+
+/* Hover effect for better readability */
+.editable:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .editable:empty::before {
+  color: #666;
+}
+
+[data-theme="dark"] .editable:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Table container */
+.timetable-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: white;
+  position: relative;
+  z-index: 1;
+}
+
+/* Table styles */
+#timetable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 1200px; /* Ensure minimum width for all content */
+}
+
+/* Header styles */
+#timetable th {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: white;
+  padding: 12px 8px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Cell styles */
+#timetable td {
+  border: 1px solid #e5e7eb;
+  padding: 0;
+  vertical-align: top;
+  position: relative;
+  min-width: 120px;
+  max-width: 150px;
+  break-inside: avoid;
+  background: white;
+}
+
+/* Day cell specific styles */
+.day-cell {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+  padding: 12px 8px !important;
+  min-width: 100px !important;
+  position: sticky;
+  left: 0;
+  z-index: 10;
+}
+
+/* Textarea styles */
+.editable {
+  width: 100%;
+  min-height: 120px;
+  max-height: 200px;
+  resize: none;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  text-align: center;
+  padding: 8px;
+  white-space: pre-line;
+  overflow-y: auto;
+  line-height: 1.4;
+  color: #1f2937;
+  position: relative;
+  z-index: 2;
+}
+
+/* Scrollbar styles for textareas */
+.editable::-webkit-scrollbar {
+  width: 4px;
+}
+
+.editable::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.editable::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 2px;
+}
+
+/* Empty cell styles */
+.editable:empty::before {
+  content: '-';
+  color: #9ca3af;
+}
+
+/* Hover and focus states */
+.editable:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.editable:focus {
+  outline: 2px solid #4f46e5;
+  background-color: #f8fafc;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] #timetable {
+  background: #1f2937;
+}
+
+[data-theme="dark"] .editable {
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .day-cell {
+  background-color: #374151;
+  color: #f3f4f6;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 1024px) {
+  .timetable-container {
+    padding: 10px;
+  }
+  
+  #timetable {
+    font-size: 13px;
+  }
+  
+  .editable {
+    font-size: 12px;
+    padding: 6px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .timetable-container {
+    padding: 0;
+    box-shadow: none;
+  }
+  
+  #timetable {
+    width: 100%;
+  }
+  
+  .editable {
+    min-height: auto;
+    height: auto;
+  }
+}
+
+/* Drag and drop styles */
+.draggable {
+    cursor: move;
+    transition: all 0.2s ease;
+}
+
+.dragging {
+    opacity: 0.5;
+    border: 2px dashed #4f46e5 !important;
+}
+
+.droppable {
+    background-color: rgba(79, 70, 229, 0.03);
+}
+
+.drop-target {
+    background-color: rgba(79, 70, 229, 0.1);
+    border: 2px dashed #4f46e5 !important;
+}
+
+/* Notification styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 24px;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+    background-color: #10B981;
+}
+
+.notification.error {
+    background-color: #EF4444;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Prevent text selection during drag */
+.draggable, .editable {
+    user-select: none;
+}
+
+/* Only allow text selection in edit mode */
+[contenteditable="true"], 
+textarea:not([readonly]) {
+    user-select: text;
+}
+
+/* Export button styles */
+#export-btn {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+#export-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#export-btn:active {
+    transform: translateY(0);
+}
+
+#export-btn:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+#export-btn i {
+    font-size: 1.1em;
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fa-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Ensure table cells are properly rendered in screenshot */
+#timetable td, #timetable th {
+    break-inside: avoid;
+    position: relative;
+    background: white;
+}
+
+/* Loading state styles */
+#export-btn:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.fa-spinner {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+}
+
+/* Error message styles */
+.error-message {
+    color: #ef4444;
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 8px 0;
+    font-size: 14px;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+/* Ensure table is properly rendered */
+#timetable {
+    background: white;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#timetable td, #timetable th {
+    background: white;
+    position: relative;
+}
+
+/* Fix potential z-index issues */
+.timetable-container {
+    isolation: isolate;
+}
+

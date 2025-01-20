@@ -1,351 +1,254 @@
-console.log('Initial localStorage:', localStorage.getItem('timetableData'));
-
-const timetableData = [
-  {
-    day: "Monday",
-    periods: [
-      "Math | TF",
-      "Physics | SA",
-      "Chemistry | HH",
-      "Biology | AM",
-      "English | MM",
-      "Free Period",
-      "Computer | AD",
-      "Sanskrit | VS"
-    ]
-  },
-  {
-    day: "Tuesday",
-    periods: [
-      "Physics | SA",
-      "Math | TF",
-      "Chemistry | HH",
-      "Biology | AM",
-      "English | MM",
-      "Free Period",
-      "Sanskrit | VS",
-      "Computer | AD"
-    ]
-  },
-  {
-    day: "Wednesday",
-    periods: [
-      "English | MM",
-      "Math | TF",
-      "Biology | AM",
-      "Physics | SA",
-      "Sanskrit | VS",
-      "Free Period",
-      "Chemistry | HH",
-      "Computer | AD"
-    ]
-  },
-  {
-    day: "Thursday",
-    periods: [
-      "Computer | AD",
-      "Chemistry | HH",
-      "Math | TF",
-      "Biology | AM",
-      "Sanskrit | VS",
-      "Free Period",
-      "Physics | SA",
-      "English | MM"
-    ]
-  },
-  {
-    day: "Friday",
-    periods: [
-      "Biology | AM",
-      "Sanskrit | VS",
-      "Physics | SA",
-      "English | MM",
-      "Computer | AD",
-      "Free Period",
-      "Math | TF",
-      "Chemistry | HH"
-    ]
-  },
-  {
-    day: "Saturday",
-    periods: [
-      "Math | TF",
-      "English | MM",
-      "Biology | AM",
-      "Physics | SA",
-      "Chemistry | HH",
-      "Free Period",
-      "Computer | AD",
-      "Sanskrit | VS"
-    ]
-  }
-];
-
-const timetableBody = document.getElementById("timetable-body");
-
-// Get data from localStorage or use default timetableData
-const getStoredData = () => {
-  const storedData = localStorage.getItem('timetableData');
-  if (storedData) {
-    console.log('Found stored data:', JSON.parse(storedData));
-    return JSON.parse(storedData);
-  }
-  console.log('Using default data');
-  // Save default data to localStorage on first visit
-  localStorage.setItem('timetableData', JSON.stringify(timetableData));
-  return timetableData;
-};
-
-// Add this to verify changes are being saved
-function saveToLocalStorage(updatedData) {
-  try {
-    localStorage.setItem('timetableData', JSON.stringify(updatedData));
-    console.log('Data saved successfully:', updatedData);
-  } catch (error) {
-    console.error('Error saving to localStorage:', error);
-  }
-}
-
-// Add these variables at the top of your script
+// Main script
 let isEditMode = false;
+
+// DOM Elements
+const timetableBody = document.getElementById('timetable-body');
 const editBtn = document.getElementById('edit-btn');
 const saveBtn = document.getElementById('save-btn');
+const exportBtn = document.getElementById('export-btn');
 
-// Add this at the top with your other constants
-const EDIT_PASSWORD = 'qwerty1234!@#$';
+// Debug function to check data
+function logCurrentData() {
+    console.log('Current localStorage data:', utils.getStoredData());
+}
 
-// Add this function to toggle edit mode
-function toggleEditMode() {
-  isEditMode = !isEditMode;
-  const textareas = document.querySelectorAll('.editable');
-  const draggableCells = document.querySelectorAll('.draggable');
-  
-  textareas.forEach(textarea => {
-    textarea.readOnly = !isEditMode;
-    if (isEditMode) {
-      textarea.removeAttribute('readonly');
-    } else {
-      textarea.setAttribute('readonly', 'true');
+function initializeTimetable() {
+    // Only initialize if no data exists
+    if (!localStorage.getItem('timetableData')) {
+        console.log('Initializing with default data');
+        localStorage.setItem('timetableData', JSON.stringify(timetableData));
     }
-  });
-
-  // Toggle button visibility
-  editBtn.style.display = isEditMode ? 'none' : 'flex';
-  saveBtn.style.display = isEditMode ? 'flex' : 'none';
-
-  // Toggle draggable state and event listeners
-  draggableCells.forEach(cell => {
-    cell.setAttribute('draggable', isEditMode.toString());
-    
-    if (isEditMode) {
-      cell.addEventListener("dragstart", handleDragStart);
-      cell.addEventListener("dragover", handleDragOver);
-      cell.addEventListener("drop", handleDrop);
-    } else {
-      cell.removeEventListener("dragstart", handleDragStart);
-      cell.removeEventListener("dragover", handleDragOver);
-      cell.removeEventListener("drop", handleDrop);
-    }
-  });
 }
 
 function renderTimetable() {
-  timetableBody.innerHTML = ""; // Clear existing content
-  const currentData = getStoredData();
+    timetableBody.innerHTML = "";
+    const currentData = utils.getStoredData();
+    console.log('Rendering data:', currentData);
 
-  currentData.forEach((row, rowIndex) => {
-    const tr = document.createElement("tr");
+    if (!currentData || !Array.isArray(currentData)) {
+        console.error('Invalid or missing data:', currentData);
+        return;
+    }
 
-    const dayCell = document.createElement("td");
-    dayCell.textContent = row.day;
-    tr.appendChild(dayCell);
+    currentData.forEach((row, rowIndex) => {
+        const tr = document.createElement("tr");
 
-    row.periods.forEach((period, colIndex) => {
-      const td = document.createElement("td");
-      td.classList.add("draggable");
-      td.setAttribute("draggable", "false"); // Set initial draggable to false
+        // Add day cell
+        const dayCell = document.createElement("td");
+        dayCell.textContent = row.day;
+        dayCell.classList.add('day-cell');
+        tr.appendChild(dayCell);
 
-      const textarea = document.createElement("textarea");
-      textarea.value = period;
-      textarea.classList.add("editable");
-      textarea.setAttribute('readonly', 'true');
+        // Add period cells
+        row.periods.forEach((period, colIndex) => {
+            const td = document.createElement("td");
+            td.classList.add("draggable");
+            td.setAttribute("draggable", "false");
 
-      // Add event listener for changes
-      textarea.addEventListener('change', (e) => {
-        const updatedData = getStoredData();
-        updatedData[rowIndex].periods[colIndex] = e.target.value;
-        saveToLocalStorage(updatedData);
-      });
+            const textarea = document.createElement("textarea");
+            textarea.value = period || '';
+            textarea.classList.add("editable");
+            textarea.setAttribute('readonly', 'true');
+            textarea.spellcheck = false;
 
-      td.appendChild(textarea);
-      tr.appendChild(td);
+            // Save changes immediately on input
+            textarea.addEventListener('input', (e) => {
+                saveChange(rowIndex, colIndex, e.target.value);
+            });
 
-      // Add drag-and-drop functionality only if in edit mode
-      if (isEditMode) {
-        td.addEventListener("dragstart", handleDragStart);
-        td.addEventListener("dragover", handleDragOver);
-        td.addEventListener("drop", handleDrop);
-      }
+            // Handle blur event to ensure data is saved
+            textarea.addEventListener('blur', (e) => {
+                saveChange(rowIndex, colIndex, e.target.value);
+            });
+
+            td.appendChild(textarea);
+            tr.appendChild(td);
+
+            // Add drag-and-drop functionality
+            td.addEventListener("dragstart", utils.handleDragStart);
+            td.addEventListener("dragover", utils.handleDragOver);
+            td.addEventListener("drop", (e) => {
+                utils.handleDrop(e);
+                // Re-render after drop to ensure changes are displayed
+                renderTimetable();
+            });
+        });
+
+        timetableBody.appendChild(tr);
     });
 
-    timetableBody.appendChild(tr);
-  });
+    adjustTextareaHeights();
 }
 
-let draggedElement = null;
-
-// Drag-and-Drop Handlers
-function handleDragStart(e) {
-  if (!isEditMode) {
-    e.preventDefault();
-    return;
-  }
-  draggedElement = e.target;
-  e.dataTransfer.effectAllowed = "move";
+function saveChange(rowIndex, colIndex, value) {
+    const currentData = utils.getStoredData();
+    currentData[rowIndex].periods[colIndex] = value;
+    utils.saveToLocalStorage(currentData);
+    console.log('Saved change:', {rowIndex, colIndex, value});
 }
 
-function handleDragOver(e) {
-  e.preventDefault();
+function adjustTextareaHeights() {
+    document.querySelectorAll('.editable').forEach(textarea => {
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight + 2) + 'px';
+    });
 }
 
-// Update the drop handler to persist dragged changes
-function handleDrop(e) {
-  e.preventDefault();
-
-  if (draggedElement && e.target.closest(".draggable")) {
-    const draggedCell = draggedElement.closest('td');
-    const targetCell = e.target.closest(".draggable");
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Content Loaded');
+    initializeTimetable();
+    renderTimetable();
     
-    const draggedTextarea = draggedCell.querySelector("textarea");
-    const targetTextarea = targetCell.querySelector("textarea");
+    // Add event listeners
+    editBtn.addEventListener('click', () => {
+        const password = prompt('Please enter the password to edit:');
+        if (password === CONFIG.EDIT_PASSWORD) {
+            toggleEditMode();
+        } else {
+            utils.showNotification('Incorrect password!', 'error');
+        }
+    });
 
-    // Get indices for updating localStorage
-    const draggedRow = draggedCell.parentElement.rowIndex - 1;
-    const draggedCol = draggedCell.cellIndex - 1;
-    const targetRow = targetCell.parentElement.rowIndex - 1;
-    const targetCol = targetCell.cellIndex - 1;
+    saveBtn.addEventListener('click', () => {
+        const currentData = utils.getStoredData();
+        utils.saveToLocalStorage(currentData);
+        toggleEditMode();
+        utils.showNotification('Changes saved successfully!');
+        renderTimetable(); // Re-render to ensure all changes are displayed
+    });
 
-    // Swap values
-    const tempValue = draggedTextarea.value;
-    draggedTextarea.value = targetTextarea.value;
-    targetTextarea.value = tempValue;
+    // Add window resize listener to adjust textarea heights
+    window.addEventListener('resize', adjustTextareaHeights);
 
-    // Update localStorage
-    const updatedData = getStoredData();
-    updatedData[draggedRow].periods[draggedCol] = draggedTextarea.value;
-    updatedData[targetRow].periods[targetCol] = targetTextarea.value;
-    localStorage.setItem('timetableData', JSON.stringify(updatedData));
-  }
+    // Add export button listener
+    if (exportBtn) {
+        exportBtn.addEventListener('click', async () => {
+            try {
+                await exportScreenshot();
+            } catch (error) {
+                console.error('Export button click error:', error);
+                utils.showNotification('Export failed. Please try again.', 'error');
+            }
+        });
+    }
+
+    // Check if html2canvas is loaded
+    if (typeof html2canvas === 'undefined') {
+        console.error('html2canvas not loaded');
+        utils.showNotification('Screenshot feature not available', 'error');
+    } else {
+        console.log('html2canvas loaded successfully');
+    }
+});
+
+function toggleEditMode() {
+    isEditMode = !isEditMode;
+    window.isEditMode = isEditMode;
+    
+    const textareas = document.querySelectorAll('.editable');
+    const draggableCells = document.querySelectorAll('.draggable');
+    
+    textareas.forEach(textarea => {
+        textarea.readOnly = !isEditMode;
+    });
+
+    draggableCells.forEach(cell => {
+        cell.setAttribute('draggable', isEditMode.toString());
+    });
+
+    editBtn.style.display = isEditMode ? 'none' : 'flex';
+    saveBtn.style.display = isEditMode ? 'flex' : 'none';
 }
 
-// Export Timetable Screenshot
-document.getElementById('export-btn').addEventListener('click', function () {
-  const timetableElement = document.getElementById("timetable");
+// Reset functionality
+function resetToDefaultData() {
+    if (confirm('Are you sure you want to reset to default data? This cannot be undone.')) {
+        localStorage.setItem('timetableData', JSON.stringify(timetableData));
+        renderTimetable();
+        utils.showNotification('Timetable reset to default!');
+    }
+}
 
-  // Capture screenshot of the timetable
-  html2canvas(timetableElement).then(function (canvas) {
-    // Convert canvas to a data URL
-    const imgData = canvas.toDataURL("image/png");
+async function exportScreenshot() {
+    try {
+        // Show loading state
+        const exportBtn = document.getElementById('export-btn');
+        exportBtn.disabled = true;
+        exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
 
-    // Create a download link
-    const link = document.createElement('a');
-    link.href = imgData;
-    link.download = 'timetable-screenshot.png';
+        // Get the table element
+        const table = document.getElementById('timetable');
+        
+        // Create a temporary container
+        const tempContainer = document.createElement('div');
+        tempContainer.style.position = 'absolute';
+        tempContainer.style.left = '-9999px';
+        tempContainer.style.top = '-9999px';
+        document.body.appendChild(tempContainer);
+        
+        // Clone the table
+        const tableClone = table.cloneNode(true);
+        tableClone.style.width = 'auto';
+        tableClone.style.height = 'auto';
+        tableClone.style.position = 'static';
+        tempContainer.appendChild(tableClone);
+        
+        // Force all cells to show full content
+        tableClone.querySelectorAll('td').forEach(td => {
+            td.style.height = 'auto';
+            td.style.width = 'auto';
+            td.style.whiteSpace = 'pre-wrap';
+            td.style.overflow = 'visible';
+        });
 
-    // Programmatically click the link to trigger the download
-    link.click();
-  });
+        // Wait for rendering
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        // Take screenshot
+        const canvas = await html2canvas(tableClone, {
+            scale: 2,
+            logging: true,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: '#ffffff',
+            onrendered: function(canvas) {
+                console.log('Render complete');
+            }
+        });
+
+        // Clean up
+        document.body.removeChild(tempContainer);
+
+        // Convert to image and download
+        const image = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = image;
+        link.download = `timetable-${new Date().toLocaleDateString().replace(/\//g, '-')}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Reset button
+        exportBtn.disabled = false;
+        exportBtn.innerHTML = '<i class="fas fa-camera"></i> Export Screenshot';
+        utils.showNotification('Screenshot exported successfully!');
+
+    } catch (error) {
+        console.error('Screenshot error details:', {
+            message: error.message,
+            stack: error.stack,
+            error: error
+        });
+        
+        const exportBtn = document.getElementById('export-btn');
+        exportBtn.disabled = false;
+        exportBtn.innerHTML = '<i class="fas fa-camera"></i> Export Screenshot';
+        utils.showNotification('Screenshot failed. Check console for details.', 'error');
+    }
+}
+
+// Add debugging information
+window.addEventListener('error', function(e) {
+    console.error('Global error:', e.error);
 });
-
-// Add event listeners for the buttons
-editBtn.addEventListener('click', () => {
-  const password = prompt('Please enter the password to edit:');
-  
-  if (password === EDIT_PASSWORD) {
-    toggleEditMode();
-  } else {
-    // Show error notification
-    const notification = document.createElement('div');
-    notification.className = 'error-notification';
-    notification.textContent = 'Incorrect password!';
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-      notification.remove();
-    }, 3000);
-  }
-});
-
-saveBtn.addEventListener('click', () => {
-  toggleEditMode();
-  // Save the current state to localStorage
-  const updatedData = getStoredData();
-  saveToLocalStorage(updatedData);
-  
-  // Show a save confirmation
-  const notification = document.createElement('div');
-  notification.className = 'save-notification';
-  notification.textContent = 'Changes saved successfully!';
-  document.body.appendChild(notification);
-  
-  setTimeout(() => {
-    notification.remove();
-  }, 3000);
-});
-
-// Add this CSS for the save notification
-const style = document.createElement('style');
-style.textContent = `
-  .save-notification {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #10b981;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    animation: slideIn 0.3s ease-out, fadeOut 0.3s ease-in 2.7s;
-  }
-
-  @keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-
-  @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
-  }
-`;
-document.head.appendChild(style);
-
-// Add this CSS for the error notification
-const notificationStyles = document.createElement('style');
-notificationStyles.textContent = `
-  .error-notification {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #ef4444;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    animation: slideIn 0.3s ease-out, fadeOut 0.3s ease-in 2.7s;
-  }
-
-  @keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-
-  @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
-  }
-`;
-document.head.appendChild(notificationStyles);
-
-// Initial render
-renderTimetable();
