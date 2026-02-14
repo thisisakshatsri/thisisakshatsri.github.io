@@ -1,164 +1,539 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&family=Press+Start+2P&family=Russo+One&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <title>Sorting Visualizer — Interactive Algorithm Animations</title>
+    <meta name="description"
+        content="Visualize sorting algorithms like Bubble Sort, Selection Sort, Insertion Sort, Quick Sort, and Merge Sort with interactive animations.">
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"  rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<title>Sorting Visualizer</title>
 
-<body background="">
-    <div class="container">
-        <br>
-        <h1 class="heading text-center" style="font-family: 'Russo One', sans-serif; color: rgb(219, 219, 219); ">Sorting Algorithm Visualizer<br><br>
-        <i><p class="text-center">"An Algorithm must be seen to be believed"<br><p class="text-center">- Donald Knuth</p> </p></i>
-        </h1><br>
-        <div class=" display-inline box" style="color: aliceblue; font-family: 'Poppins', sans-serif;padding: 15px;">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <select class="form-select" style="width: 400px;" name="algo" id="sortingAlgo">
-                <option value="insertion">Select Sorting Algorithm to Visualize!</option>
-                <option value="insertion">Insertion Sort</option>
-                <option value="selection">Selection Sort</option>
-                <option value="bubble">Bubble Sort</option>
-                <option value="bubble">Quick Sort</option>
-                <option value="bubble">Merge Sort</option>
-            </select>
-        </div>
-        <br>
+<!-- Animated background orbs -->
+<div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+    <div class="orb orb-5"></div>
+</div>
 
+<body>
+    <div class="app-container">
 
-        <div class="input-group mb-3">
-            <input type="text" id="array" placeholder="Enter Space Separated Array" class="form-control"
-                aria-label="Default" aria-describedby="inputGroup-sizing-default">
-        </div>
-
-        <button onclick="generateArray()" class="btn btn-outline-primary">Generate random array</button>
-
-        <button onclick="validate()" type="button" class="btn btn-dark">Start Sorting</button>
-    </div>
-<br><br>
-            <div class="text-center">
-            <div class="card">
-                <div class="card-header" >
-                    Simulation
-                </div>
-                <div>
-                    <div class="numbers">
-
+        <!-- Header -->
+        <header class="header">
+            <h1>Sorting Visualizer</h1>
+            <p class="subtitle">"An algorithm must be seen to be believed" <span>— Donald Knuth</span></p>
+            <a class="github-badge" href="https://github.com/thisisakshatsri/thisisakshatsri.github.io" target="_blank"
+                rel="noopener" title="Star on GitHub">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                </svg>
+                <span>Star on GitHub</span>
+                <svg class="star-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+            </a>
+            <div class="header-toolbar">
+                <!-- Bar Style Selector -->
+                <div class="bar-style-selector">
+                    <label class="toolbar-label">Style</label>
+                    <div class="style-pills" id="stylePills">
+                        <button class="style-pill active" data-style="bars" onclick="setBarStyle('bars')"
+                            title="Bars">▮</button>
+                        <button class="style-pill" data-style="dots" onclick="setBarStyle('dots')"
+                            title="Dots">●</button>
+                        <button class="style-pill" data-style="circles" onclick="setBarStyle('circles')"
+                            title="Circles">◯</button>
+                        <button class="style-pill" data-style="gradient" onclick="setBarStyle('gradient')"
+                            title="Color Gradient">◧</button>
                     </div>
                 </div>
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Light/Dark Theme">
+                    <svg class="theme-icon sun" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5" />
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                    </svg>
+                    <svg class="theme-icon moon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        style="display:none">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
+                </button>
             </div>
-        </div>
-        
-        <div data-aos="fade-left" data-aos-duration="1500" class="skills">
-            <div  class="programming"><br>
-                <h1 style="font-family: 'Russo One', sans-serif;">Sort Algorithm</h1><br><br>
-                 <p>Sorting Algorithms are used to sort a data structure according to a specific order relationship, such as numerical order or lexicographical order.<br><br>
-                    
-                    This operation is one of the most important and widespread in computer science. For a long time, new methods have been developed to make this procedure faster and faster.<br><br>
-                    
-                    There are currently hundreds of different sorting algorithms, each with its own specific characteristics. They are classified according to two metrics: space complexity and time complexity.<br><br>
-                    
-                    Those two kinds of complexity are represented with asymptotic notations, mainly with the symbols O, Θ, Ω, representing respectively the upper bound, the tight bound, and the lower bound of the algorithm's complexity, specifying in brackets an expression in terms of n, the number of the elements of the data structure.<br><br>
-                    
-                    Most of them fall into two categories:<br><br>
-                    
-                    <u style="font-size: 35px;">Logarithmic</u><br>
-                    The complexity is proportional to the binary logarithm (i.e to the base 2) of n.
-                    An example of a logarithmic sorting algorithm is Quick sort, with space and time complexity O(n × log n).<br><br>
-                    -&nbsp; Quick Sort<br>
-                    -&nbsp; Merge Sort<br>
-                    -&nbsp; Heap Sort<br><br>
-                    
-                    
-                    <u style="font-size: 35px;">Quadratic</u><br>
-                    The complexity is proportional to the square of n.
-                    An example of a quadratic sorting algorithm is Bubble sort, with a time complexity of O(n2).
-                    Space and time complexity can also be further subdivided into 3 different cases: best case, average case and worst case.<br><br>
-                    -&nbsp; Bubble Sort<br>
-                    -&nbsp; Selection Sort<br>
-                    -&nbsp; Insertion Sort<br>
-                    -&nbsp; Gnome Sort<br>
-                    -&nbsp; Shaker Sort<br>
-                    -&nbsp; OddEven Sort<br>
-                    -&nbsp; Pancake Sort<br><br>
+        </header>
 
-                     Have Fun!</p><br><br>
-            </div>
-        </div>
-
-
-        <section class="s1">
-            <div class="main-container"><br>
-                <div data-aos="zoom-in" data-aos-duration="1500" class="post-wrapper">
-                    <div class="post">
-                        <img class="thumbnail" src="textures/bubble.jpg">
-                        <div class="post-preview">
-                            <h6 class="post-title">Description</h6><br>
-                            <p class="post-intro"> Bubble Sort is an iterative sorting algorithm that imitates the movement of bubbles in sparkling water..<br><br>
-                                Complexity:
-                                <br>
-                                <b>Average Complexity:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
-                                <b>Best Case:</b>&nbsp;&nbsp;&nbsp;O(n)<br>
-                                <b>Worst Case:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
-                                <b>Space Complexity:&nbsp;&nbsp;&nbsp;</b>O(1)<br><br><br>
-                            </p>
-                        </div>
-                    </div>
-    
-                    <div class="post">
-                        <img class="thumbnail" src="textures/selection.jpg">
-                        <div class="post-preview">
-                            <h6 class="post-title"><b>Description</b></h6><br>
-                            <p class="post-intro">The selection sort algorithm sorts an array by repeatedly finding the minimum element from unsorted part and putting it at the beginning.                            <br><br>
-                                Complexity:<br>
-                                <b>Average Complexity:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
-                                <b>Best Case:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
-                                <b>Worst Case:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
-                                <b>Space Complexity:&nbsp;&nbsp;&nbsp;</b>O(1)<br>    
-                            </p>
-                        </div>
-                    </div>
-    
-                    <div class="post">
-                        <img class="thumbnail" src="textures/insertion.jpg">
-                        <div class="post-preview">
-                            <h6 class="post-title">Description</h6><br>
-                            <p class="post-intro">The array is virtually split into a sorted and an unsorted part. Values from the unsorted part are picked and placed at the correct position in the sorted part.<br><br>
-                                Complexity:<br>
-                                <b>Average Complexity:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
-                                <b>Best Case:</b>&nbsp;&nbsp;&nbsp;O(n)<br>
-                                <b>Worst Case:</b>&nbsp;&nbsp;&nbsp;O(n<sup>2</sup>)<br>
-                                <b>Space Complexity:&nbsp;&nbsp;&nbsp;</b>O(1)<br>
-                            </p>
-                        </div>
-                    </div>
-    
-    
+        <!-- Controls -->
+        <section class="controls-panel" id="controlsPanel">
+            <div class="controls-row">
+                <div class="input-group">
+                    <select class="algo-select" id="sortingAlgo">
+                        <option value="" disabled selected>Choose Algorithm</option>
+                        <option value="bubble">Bubble Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="insertion">Insertion Sort</option>
+                        <option value="quick">Quick Sort</option>
+                        <option value="merge">Merge Sort</option>
+                        <option value="heap">Heap Sort</option>
+                        <option value="shell">Shell Sort</option>
+                        <option value="counting">Counting Sort</option>
+                        <option value="radix">Radix Sort</option>
+                        <option value="tim">Tim Sort</option>
+                    </select>
                 </div>
-
-                <h1 style="font-family: 'Russo One', sans-serif; text-align: center; color: aliceblue;">And, For No Reason!</h1>
+                <div class="input-group">
+                    <input type="text" id="arrayInput" class="array-input" placeholder="e.g. 34, 12, 7, 45, 23">
+                </div>
+                <button id="btnGenerate" class="btn btn-secondary" onclick="generateArray()">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10" />
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                    </svg>
+                    Random
+                </button>
+                <button id="btnSort" class="btn btn-primary" onclick="startSort()">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                    Sort
+                </button>
+                <button id="btnSurprise" class="btn btn-surprise" onclick="surpriseMe()"
+                    title="Pick a random algorithm and auto-sort!">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="2" />
+                        <circle cx="9" cy="9" r="1" fill="currentColor" />
+                        <circle cx="15" cy="9" r="1" fill="currentColor" />
+                        <circle cx="9" cy="15" r="1" fill="currentColor" />
+                        <circle cx="15" cy="15" r="1" fill="currentColor" />
+                        <circle cx="12" cy="12" r="1" fill="currentColor" />
+                    </svg>
+                    Surprise Me
+                </button>
+                <button id="btnCode" class="btn btn-icon" onclick="toggleCodePanel()" title="Toggle Code Panel">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6" />
+                        <polyline points="8 6 2 12 8 18" />
+                    </svg>
+                </button>
+                <button id="btnSound" class="btn btn-icon" onclick="toggleSound()" title="Toggle Sound">
+                    <svg id="soundIconOn" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                    </svg>
+                    <svg id="soundIconOff" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                        <line x1="23" y1="9" x2="17" y2="15" />
+                        <line x1="17" y1="9" x2="23" y2="15" />
+                    </svg>
+                </button>
             </div>
-            
+
+            <!-- Playback Controls (visible during sort) -->
+            <div class="playback-row" id="playbackRow" style="display:none">
+                <button id="btnPause" class="btn btn-playback" onclick="pauseSort()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="6" y="4" width="4" height="16" />
+                        <rect x="14" y="4" width="4" height="16" />
+                    </svg>
+                    Pause
+                </button>
+                <button id="btnResume" class="btn btn-playback btn-resume" onclick="resumeSort()" disabled>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                    Resume
+                </button>
+                <button id="btnStep" class="btn btn-playback" onclick="stepSort()" disabled>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="13 17 18 12 13 7" />
+                        <line x1="6" y1="12" x2="18" y2="12" />
+                    </svg>
+                    Step
+                </button>
+            </div>
+
+            <!-- Sliders Row -->
+            <div class="sliders-row">
+                <div class="slider-control">
+                    <span class="slider-label">Speed</span>
+                    <input type="range" id="speedSlider" class="speed-slider" min="1" max="100" value="50">
+                    <span class="slider-value" id="speedValue">50</span>
+                </div>
+                <div class="slider-control">
+                    <span class="slider-label">Size</span>
+                    <input type="range" id="sizeSlider" class="speed-slider size-slider" min="10" max="100" value="25">
+                    <span class="slider-value" id="sizeValue">25</span>
+                </div>
+            </div>
+
+            <!-- Status -->
+            <div class="status-bar">
+                <span class="status-text" id="statusText">Ready — choose an algorithm and enter or generate an
+                    array</span>
+                <div class="stats">
+                    <span class="stat-item">Comparisons: <strong id="statComparisons">0</strong></span>
+                    <span class="stat-item">Swaps: <strong id="statSwaps">0</strong></span>
+                </div>
+            </div>
         </section>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>
-      AOS.init();
-    </script> 
+        <!-- Visualization + Code Panel -->
+        <section class="viz-section">
+            <div class="viz-main-layout">
+                <div class="viz-container" id="vizContainer">
+                    <div class="empty-state" id="emptyState">
+                        <div class="icon">📊</div>
+                        <p>Generate or enter an array to begin</p>
+                    </div>
+                </div>
+                <aside class="code-panel" id="codePanel">
+                    <div class="code-panel-header">
+                        <span class="code-panel-title">&lt;/&gt; Pseudocode</span>
+                        <button onclick="toggleCodePanel()" class="btn-close-panel">✕</button>
+                    </div>
+                    <pre class="pseudocode"
+                        id="pseudocode"><span class="code-placeholder">Select an algorithm to view its code</span></pre>
+                </aside>
+            </div>
+            <div class="legend">
+                <div class="legend-item"><span class="legend-swatch default"></span> Unsorted</div>
+                <div class="legend-item"><span class="legend-swatch comparing-a"></span> Comparing A</div>
+                <div class="legend-item"><span class="legend-swatch comparing-b"></span> Comparing B</div>
+                <div class="legend-item"><span class="legend-swatch sorted-swatch"></span> Sorted</div>
+            </div>
+        </section>
+
+        <!-- Algorithm Info Cards -->
+        <section class="info-section">
+            <h2 class="section-title">Sorting Algorithms</h2>
+            <p class="section-subtitle">Explore the characteristics of each algorithm</p>
+
+            <div class="cards-grid">
+                <!-- Bubble Sort -->
+                <article class="algo-card">
+                    <div class="card-header-row">
+                        <h3>Bubble Sort</h3>
+                        <span class="category-badge">Quadratic</span>
+                    </div>
+                    <p class="card-desc">Iteratively compares adjacent elements and swaps them if they are in the wrong
+                        order, causing larger elements to "bubble up" to the end of the array.</p>
+                    <div class="complexity-grid">
+                        <div class="complexity-item"><span class="label">Best</span><span class="value">O(n)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Average</span><span class="value">O(n²)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Worst</span><span class="value">O(n²)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Space</span><span class="value">O(1)</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Selection Sort -->
+                <article class="algo-card">
+                    <div class="card-header-row">
+                        <h3>Selection Sort</h3>
+                        <span class="category-badge">Quadratic</span>
+                    </div>
+                    <p class="card-desc">Repeatedly finds the minimum element from the unsorted portion and places it at
+                        the beginning. Simple but inefficient for large datasets.</p>
+                    <div class="complexity-grid">
+                        <div class="complexity-item"><span class="label">Best</span><span class="value">O(n²)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Average</span><span class="value">O(n²)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Worst</span><span class="value">O(n²)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Space</span><span class="value">O(1)</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Insertion Sort -->
+                <article class="algo-card">
+                    <div class="card-header-row">
+                        <h3>Insertion Sort</h3>
+                        <span class="category-badge">Quadratic</span>
+                    </div>
+                    <p class="card-desc">Builds the sorted array one element at a time by repeatedly picking the next
+                        element and inserting it into its correct position.</p>
+                    <div class="complexity-grid">
+                        <div class="complexity-item"><span class="label">Best</span><span class="value">O(n)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Average</span><span class="value">O(n²)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Worst</span><span class="value">O(n²)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Space</span><span class="value">O(1)</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Quick Sort -->
+                <article class="algo-card">
+                    <div class="card-header-row">
+                        <h3>Quick Sort</h3>
+                        <span class="category-badge logarithmic">Logarithmic</span>
+                    </div>
+                    <p class="card-desc">Uses a divide-and-conquer strategy by selecting a pivot element and
+                        partitioning the array so elements less than the pivot are on the left and greater on the right.
+                    </p>
+                    <div class="complexity-grid">
+                        <div class="complexity-item"><span class="label">Best</span><span class="value">O(n log
+                                n)</span></div>
+                        <div class="complexity-item"><span class="label">Average</span><span class="value">O(n log
+                                n)</span></div>
+                        <div class="complexity-item"><span class="label">Worst</span><span class="value">O(n²)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Space</span><span class="value">O(log n)</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Merge Sort -->
+                <article class="algo-card">
+                    <div class="card-header-row">
+                        <h3>Merge Sort</h3>
+                        <span class="category-badge logarithmic">Logarithmic</span>
+                    </div>
+                    <p class="card-desc">Divides the array into halves, recursively sorts each half, and then merges the
+                        sorted halves back together. Guarantees O(n log n) in all cases.</p>
+                    <div class="complexity-grid">
+                        <div class="complexity-item"><span class="label">Best</span><span class="value">O(n log
+                                n)</span></div>
+                        <div class="complexity-item"><span class="label">Average</span><span class="value">O(n log
+                                n)</span></div>
+                        <div class="complexity-item"><span class="label">Worst</span><span class="value">O(n log
+                                n)</span></div>
+                        <div class="complexity-item"><span class="label">Space</span><span class="value">O(n)</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Heap Sort -->
+                <article class="algo-card">
+                    <div class="card-header-row">
+                        <h3>Heap Sort</h3>
+                        <span class="category-badge logarithmic">Logarithmic</span>
+                    </div>
+                    <p class="card-desc">Builds a max-heap from the array, then repeatedly extracts the maximum element
+                        and places it at the end. The heap structure enables efficient selection of the largest element.
+                    </p>
+                    <div class="complexity-grid">
+                        <div class="complexity-item"><span class="label">Best</span><span class="value">O(n log
+                                n)</span></div>
+                        <div class="complexity-item"><span class="label">Average</span><span class="value">O(n log
+                                n)</span></div>
+                        <div class="complexity-item"><span class="label">Worst</span><span class="value">O(n log
+                                n)</span></div>
+                        <div class="complexity-item"><span class="label">Space</span><span class="value">O(1)</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Shell Sort -->
+                <article class="algo-card">
+                    <div class="card-header-row">
+                        <h3>Shell Sort</h3>
+                        <span class="category-badge">Sub-Quadratic</span>
+                    </div>
+                    <p class="card-desc">A generalization of insertion sort that allows swapping elements far apart.
+                        Uses a gap sequence that shrinks over time, producing fascinating visual "waves" during sorting.
+                    </p>
+                    <div class="complexity-grid">
+                        <div class="complexity-item"><span class="label">Best</span><span class="value">O(n log
+                                n)</span></div>
+                        <div class="complexity-item"><span class="label">Average</span><span
+                                class="value">O(n^1.3)</span></div>
+                        <div class="complexity-item"><span class="label">Worst</span><span class="value">O(n²)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Space</span><span class="value">O(1)</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Counting Sort -->
+                <article class="algo-card">
+                    <div class="card-header-row">
+                        <h3>Counting Sort</h3>
+                        <span class="category-badge linear">Linear</span>
+                    </div>
+                    <p class="card-desc">A non-comparison sort that counts occurrences of each value, then reconstructs
+                        the array. Extremely fast for small ranges of integer values.</p>
+                    <div class="complexity-grid">
+                        <div class="complexity-item"><span class="label">Best</span><span class="value">O(n+k)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Average</span><span class="value">O(n+k)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Worst</span><span class="value">O(n+k)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Space</span><span class="value">O(k)</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Radix Sort -->
+                <article class="algo-card">
+                    <div class="card-header-row">
+                        <h3>Radix Sort</h3>
+                        <span class="category-badge linear">Linear</span>
+                    </div>
+                    <p class="card-desc">Sorts numbers digit by digit from least significant to most significant using
+                        counting sort as a subroutine. Creates mesmerizing wave patterns as digits are processed.</p>
+                    <div class="complexity-grid">
+                        <div class="complexity-item"><span class="label">Best</span><span class="value">O(nk)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Average</span><span class="value">O(nk)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Worst</span><span class="value">O(nk)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Space</span><span class="value">O(n+k)</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Tim Sort -->
+                <article class="algo-card">
+                    <div class="card-header-row">
+                        <h3>Tim Sort</h3>
+                        <span class="category-badge logarithmic">Logarithmic</span>
+                    </div>
+                    <p class="card-desc">A hybrid algorithm combining insertion sort and merge sort. Splits the array
+                        into small "runs", sorts each with insertion sort, then merges them. Used by Python and Java.
+                    </p>
+                    <div class="complexity-grid">
+                        <div class="complexity-item"><span class="label">Best</span><span class="value">O(n)</span>
+                        </div>
+                        <div class="complexity-item"><span class="label">Average</span><span class="value">O(n log
+                                n)</span></div>
+                        <div class="complexity-item"><span class="label">Worst</span><span class="value">O(n log
+                                n)</span></div>
+                        <div class="complexity-item"><span class="label">Space</span><span class="value">O(n)</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Feature Tabs: Compare & Benchmark -->
+        <section class="features-section">
+            <div class="feature-tabs">
+                <button class="feature-tab active" data-feature="compare" onclick="switchFeature('compare')">⚔️
+                    Compare</button>
+                <button class="feature-tab" data-feature="benchmark" onclick="switchFeature('benchmark')">📊
+                    Benchmark</button>
+            </div>
+
+            <!-- Compare Panel -->
+            <div class="feature-panel" id="comparePanel">
+                <div class="compare-controls">
+                    <select class="algo-select cmp-select" id="algoA">
+                        <option value="" disabled selected>Algorithm A</option>
+                        <option value="bubble">Bubble Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="insertion">Insertion Sort</option>
+                        <option value="quick">Quick Sort</option>
+                        <option value="merge">Merge Sort</option>
+                        <option value="heap">Heap Sort</option>
+                        <option value="shell">Shell Sort</option>
+                        <option value="counting">Counting Sort</option>
+                        <option value="radix">Radix Sort</option>
+                        <option value="tim">Tim Sort</option>
+                    </select>
+                    <span class="vs-badge">VS</span>
+                    <select class="algo-select cmp-select" id="algoB">
+                        <option value="" disabled selected>Algorithm B</option>
+                        <option value="bubble">Bubble Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="insertion">Insertion Sort</option>
+                        <option value="quick">Quick Sort</option>
+                        <option value="merge">Merge Sort</option>
+                        <option value="heap">Heap Sort</option>
+                        <option value="shell">Shell Sort</option>
+                        <option value="counting">Counting Sort</option>
+                        <option value="radix">Radix Sort</option>
+                        <option value="tim">Tim Sort</option>
+                    </select>
+                    <div class="slider-control cmp-size">
+                        <span class="slider-label">Size</span>
+                        <input type="range" id="cmpSizeSlider" class="speed-slider size-slider" min="10" max="80"
+                            value="30">
+                        <span class="slider-value" id="cmpSizeVal">30</span>
+                    </div>
+                    <button id="btnCompare" class="btn btn-primary" onclick="startComparison()">Compare</button>
+                </div>
+                <div class="compare-grid">
+                    <div class="compare-col">
+                        <h3 class="compare-name" id="nameA">Algorithm A</h3>
+                        <div class="viz-container compare-viz" id="vizA"></div>
+                        <div class="compare-stats">
+                            <span>Comparisons: <strong id="compA">0</strong></span>
+                            <span>Swaps: <strong id="swapA">0</strong></span>
+                            <span class="compare-time" id="timeA">—</span>
+                        </div>
+                    </div>
+                    <div class="compare-col">
+                        <h3 class="compare-name" id="nameB">Algorithm B</h3>
+                        <div class="viz-container compare-viz" id="vizB"></div>
+                        <div class="compare-stats">
+                            <span>Comparisons: <strong id="compB">0</strong></span>
+                            <span>Swaps: <strong id="swapB">0</strong></span>
+                            <span class="compare-time" id="timeB">—</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benchmark Panel -->
+            <div class="feature-panel hidden" id="benchmarkPanel">
+                <div class="benchmark-controls">
+                    <button id="btnBenchmark" class="btn btn-primary" onclick="runBenchmark()">▶ Run Benchmark</button>
+                    <span class="benchmark-status" id="benchmarkStatus">Runs all 5 algorithms on arrays of increasing
+                        size</span>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="benchmarkChart"></canvas>
+                </div>
+                <div class="chart-legend" id="chartLegend"></div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            Designed with <span class="heart">❤️</span> by <a href="https://thisisakshatsri.github.io" target="_blank"
+                rel="noopener">Akshat Srivastava</a>
+        </footer>
+    </div>
+
     <script src="drawing.js"></script>
-    <script src="main.js">
-    </script>
     <script src="sorting.js"></script>
-    <script src="algos.js"></script><br>
-    <p style="text-align: center; color: #ccd6f6; font-family: 'Roboto Mono', monospace;font-size: large;">
-        Design with ❤️  by <a href="http://thisisakshatsri.github.io">Akshat Srivastava</a><br> All Rights Reserved
-    </p>
+    <script src="algos.js"></script>
+    <script src="codepanel.js"></script>
+    <script src="comparison.js"></script>
+    <script src="benchmark.js"></script>
+    <script src="theme.js"></script>
 </body>
+
 </html>

@@ -1,75 +1,112 @@
-var arr = [34, 23];
-var block = '<div class="block"></div>';
-var piles = '<div class="pile"></div>';
-var q = document.querySelector(".numbers");
+/* ═══════════════════════════════════════════════════════════════
+   Input Validation, Orchestration & State
+   ═══════════════════════════════════════════════════════════════ */
 
-var drawUnique = (i, j) => {
-    q1 = document.getElementsByClassName("block")[i]
-    q2 = document.getElementsByClassName("block")[j]
+let isSorting = false;
 
-    for (let i = 0; i < q1.childNodes.length; i++) {
-        q1.childNodes[i].className = "un1";
+// ---------- Parse input ----------
+function parseInput() {
+    const raw = document.getElementById('arrayInput').value.trim();
+    if (!raw) return null;
+
+    // accept comma-separated, space-separated, or mixed
+    const tokens = raw.split(/[\s,]+/).filter(Boolean);
+    const nums = tokens.map(t => parseInt(t, 10));
+
+    for (const n of nums) {
+        if (isNaN(n)) return null;
     }
-    for (let i = 0; i < q2.childNodes.length; i++) {
-        q2.childNodes[i].className = "un2";
-    }
+    return nums;
 }
 
-var drawSame = (i, j) => {
-    q1 = document.getElementsByClassName("block")[i]
-    q2 = document.getElementsByClassName("block")[j]
+// ---------- Start sorting ----------
+function startSort() {
+    if (isSorting) return;
 
-    for (let i = 0; i < q1.childNodes.length; i++) {
-        q1.childNodes[i].className = "pile";
+    const arr = parseInput();
+    if (!arr || arr.length === 0) {
+        setStatus('⚠ Please enter valid numbers separated by commas or spaces', '');
+        return;
     }
-    for (let i = 0; i < q2.childNodes.length; i++) {
-        q2.childNodes[i].className = "pile";
+
+    const algoSelect = document.getElementById('sortingAlgo');
+    const algo = algoSelect.value;
+    if (!algo) {
+        setStatus('⚠ Please choose a sorting algorithm first', '');
+        return;
     }
+
+    // draw initial state
+    drawBars(arr);
+    resetStats();
+
+    // lock controls & show playback
+    isSorting = true;
+    setControlsDisabled(true);
+    showPlayback();
+    setStatus('Sorting with ' + algoSelect.options[algoSelect.selectedIndex].text + '…', 'sorting');
+
+    // run
+    let sortPromise;
+    switch (algo) {
+        case 'bubble': sortPromise = bubbleSort(arr); break;
+        case 'selection': sortPromise = selectionSort(arr); break;
+        case 'insertion': sortPromise = insertionSort(arr); break;
+        case 'quick': sortPromise = quickSort(arr, 0, arr.length - 1); break;
+        case 'merge': sortPromise = mergeSort(arr, 0, arr.length - 1); break;
+        case 'heap': sortPromise = heapSort(arr); break;
+        case 'shell': sortPromise = shellSort(arr); break;
+        case 'counting': sortPromise = countingSort(arr); break;
+        case 'radix': sortPromise = radixSort(arr); break;
+        case 'tim': sortPromise = timSort(arr); break;
+        default: sortPromise = Promise.resolve();
+    }
+
+    sortPromise.then(() => {
+        celebrateAll();
+        setStatus('✓ Sorted! ' + comparisons + ' comparisons, ' + swaps + ' swaps', 'done');
+        isSorting = false;
+        setControlsDisabled(false);
+        hidePlayback();
+    });
 }
 
-var swap = (i1, i2) => {
-    q1 = document.getElementsByClassName("block")[i1]
-    q2 = document.getElementsByClassName("block")[i2]
-
-    var temp = q1.innerHTML
-    q1.innerHTML = q2.innerHTML
-    q2.innerHTML = temp
+// ---------- Enable / Disable controls ----------
+function setControlsDisabled(disabled) {
+    document.getElementById('btnSort').disabled = disabled;
+    document.getElementById('btnGenerate').disabled = disabled;
+    document.getElementById('sortingAlgo').disabled = disabled;
+    document.getElementById('arrayInput').disabled = disabled;
+    document.getElementById('sizeSlider').disabled = disabled;
+    document.getElementById('btnSurprise').disabled = disabled;
 }
 
+// ---------- Surprise Me ----------
+const ALGO_NAMES = {
+    bubble: 'Bubble Sort', selection: 'Selection Sort', insertion: 'Insertion Sort',
+    quick: 'Quick Sort', merge: 'Merge Sort', heap: 'Heap Sort',
+    shell: 'Shell Sort', counting: 'Counting Sort', radix: 'Radix Sort', tim: 'Tim Sort'
+};
 
+function surpriseMe() {
+    if (isSorting) return;
 
-const validate = () => {
-    let q = document.querySelector("#array")
-    var alertMsg = ""
-    var num = q.value.split(" ").map(x => parseInt(x)); 
-    for (let i = 0; i < num.length; i++) {
-        if(isNaN(num[i])){
-            alertMsg = "Invalid Input"
-            break
-        }
-    }
-    if(alertMsg!=""){
-        alert(alertMsg)
-    }
-    else{
-        simulate(num)
-    }
-}
+    const algos = Object.keys(ALGO_NAMES);
+    const pick = algos[Math.floor(Math.random() * algos.length)];
 
-let simulate = (arr) => {
-    draw(arr)
+    // Set the algorithm
+    const sel = document.getElementById('sortingAlgo');
+    sel.value = pick;
+    sel.dispatchEvent(new Event('change'));
 
-    
-    var q = document.querySelector("#sortingAlgo")
-    let algo = q.value
-    if(algo=="insertion")
-        insertionSort(arr)
-    else if(algo == "selection")
-        selectionSort(arr)
-    else if(algo == "bubble")
-        bubbleSort(arr)   
-    else if(algo == "quick")
-        quickSort(arr)
-    else if(algo == "merge")
-        mergeSort(arr)
+    // Generate a fresh random array
+    generateArray();
+
+    // Announce choice
+    setStatus(`🎲 Surprise! Let's try ${ALGO_NAMES[pick]}...`, '');
+
+    // Auto-start after a brief teaser delay
+    setTimeout(() => {
+        if (!isSorting) startSort();
+    }, 600);
 }
